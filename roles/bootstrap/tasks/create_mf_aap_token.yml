@@ -23,14 +23,14 @@
     kind: Secret
     name: migration-factory-aap-sa-token
     namespace: openshift-config
-  register: bootstrap_migration_factory_aap_sa_token
+  register: migration_factory_aap_sa_token
 
 - name: create_mf_aap_token | Set fact with Service Account API key
   ansible.builtin.set_fact:
-    bootstrap_openshift_sa_token: "{{ bootstrap_migration_factory_aap_sa_token.resources[0].data.token | b64decode }}"
+    openshift_sa_token: "{{ migration_factory_aap_sa_token.resources[0].data.token | b64decode }}"
 
 - name: create_mf_aap_token | Print Migration Factory AAP Service Account API key
   ansible.builtin.debug:
-    var: bootstrap_openshift_sa_token
+    var: openshift_sa_token
     verbosity: 1
 ...

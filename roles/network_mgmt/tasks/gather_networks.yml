@@ -6,7 +6,7 @@
     password: "{{ network_mgmt_vcenter_password }}"
     validate_certs: false
   delegate_to: localhost
-  register: network_mgmt_dvswitch_info
+  register: dvswitch_info
 
 - name: gather_networks | Get info for all dVSwitch Port Groups
   community.vmware.vmware_dvs_portgroup_info:
@@ -16,5 +16,5 @@
     datacenter: "{{ network_mgmt_vcenter_datacenter }}"
     validate_certs: false
     show_vlan_info: true
-  register: network_mgmt_dvpg_info
+  register: dvpg_info
 ...

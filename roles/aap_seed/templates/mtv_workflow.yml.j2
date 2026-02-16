@@ -7,7 +7,7 @@ ask_variables_on_launch: false
 inventory: "{{ aap_seed_aap_inventory }}"
 state: present
 simplified_workflow_nodes:
-{% for workflow in  _aap_seed_mtv_workflow_names %}
+{% for workflow in  _mtv_workflow_names %}
   - all_parents_must_converge: false
     identifier: {{ workflow }}
     unified_job_template: {{ workflow }}

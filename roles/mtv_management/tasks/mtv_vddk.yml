@@ -44,15 +44,15 @@
         kind: Secret
         name: "{{ mtv_management_vmware_vddk_init_image_credentials_secret }}"
         namespace: "{{ mtv_management_migration_namespace }}"
-      register: mtv_management_mtv_vddk_credentials_secret_result
+      register: mtv_vddk_credentials_secret_result
 
     - name: mtv_vddk | Verify Provided VDDK Credentials Secret
       ansible.builtin.assert:
         that:
-          - "'resources' in mtv_management_mtv_vddk_credentials_secret_result"
-          - mtv_management_mtv_vddk_credentials_secret_result.resources is not none
-          - mtv_management_mtv_vddk_credentials_secret_result.resources | length > 0
-          - mtv_management_mtv_vddk_credentials_secret_result.resources[0].type == 'kubernetes.io/dockerconfigjson' or mtv_management_mtv_vddk_credentials_secret_result.resources[0].type == 'kubernetes.io/dockercfg' # noqa: yaml[line-length]
+          - "'resources' in mtv_vddk_credentials_secret_result"
+          - mtv_vddk_credentials_secret_result.resources is not none
+          - mtv_vddk_credentials_secret_result.resources | length > 0
+          - mtv_vddk_credentials_secret_result.resources[0].type == 'kubernetes.io/dockerconfigjson' or mtv_vddk_credentials_secret_result.resources[0].type == 'kubernetes.io/dockercfg' # noqa: yaml[line-length]
         quiet: true
         fail_msg: "Unable to locate valid VDDK Credentials Secret '{{ mtv_management_vmware_vddk_init_image_credentials_secret }}' in namespace '{{ mtv_management_migration_namespace }}" # noqa: yaml[line-length]
 

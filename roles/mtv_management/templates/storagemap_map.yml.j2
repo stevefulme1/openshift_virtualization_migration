@@ -1,5 +1,5 @@
 destination:
-  storageClass: "{{ _mtv_management_storage_map_storage_class }}"
+  storageClass: "{{ _storage_map_storage_class }}"
 {% if mtv_vmware_datastore is defined %}
 source:
   id: "{{ mtv_vmware_datastore.id }}"

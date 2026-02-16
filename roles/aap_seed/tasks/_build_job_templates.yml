@@ -3,26 +3,26 @@
   block:
     - name: _build_job_templates | Clear operator list
       ansible.builtin.set_fact:
-        aap_seed_operator_management_operators: []
+        operator_management_operators: []
 
     - name: _build_job_templates | Add hub operators
       when: _mf_host in groups['migration_hub']
       ansible.builtin.set_fact:
-        aap_seed_operator_management_operators: >-
-          {{ (aap_seed_operator_management_operators + aap_seed_operator_management_hub)
+        operator_management_operators: >-
+          {{ (operator_management_operators + aap_seed_operator_management_hub)
           | unique }}
 
     - name: _build_job_templates | Add spoke operators
       when: _mf_host in groups['migration_spoke']
       ansible.builtin.set_fact:
-        aap_seed_operator_management_operators: >-
-          {{ (aap_seed_operator_management_operators + aap_seed_operator_management_spoke)
+        operator_management_operators: >-
+          {{ (operator_management_operators + aap_seed_operator_management_spoke)
           | unique }}
 
 - name: _build_job_templates | Build Operator Job Template
   ansible.builtin.set_fact:
-    aap_seed_controller_templates: >-
-      {{ aap_seed_controller_templates + [lookup('template', 'operator_job_template.yml.j2')
+    controller_templates: >-
+      {{ controller_templates + [lookup('template', 'operator_job_template.yml.j2')
       | ansible.builtin.from_yaml] }}
   no_log: "{{ aap_seed_secure_logging }}"
 

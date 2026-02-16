@@ -15,14 +15,14 @@
         controller_username: "{{ bootstrap_controller_username }}"
         controller_password: "{{ bootstrap_controller_password }}"
         validate_certs: "{{ bootstrap_controller_validate_certs }}"
-      register: bootstrap_subscription
+      register: subscription
       retries: 10
       delay: 5
-      until: bootstrap_subscription is not failed
+      until: subscription is not failed
 
-    - name: aap_subscription | Set pool based on bootstrap_subscription
+    - name: aap_subscription | Set pool based on subscription
       ansible.builtin.set_fact:
-        bootstrap_rh_pool_id: "{{ bootstrap_subscription.subscriptions[0].pool_id }}"
+        bootstrap_rh_pool_id: "{{ subscription.subscriptions[0].pool_id }}"
 
     - name: aap_subscription | Attach to a pool
       ansible.controller.license:

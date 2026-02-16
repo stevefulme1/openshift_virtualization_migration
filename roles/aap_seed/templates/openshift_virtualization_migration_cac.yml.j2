@@ -11,4 +11,4 @@
    aap_inventory: "{{ aap_seed_aap_inventory }}"
    aap_job_template_extra_vars: "{{ aap_seed_aap_job_template_extra_vars | to_yaml }}"
    aap_version: "{{ aap_seed_aap_version }}"
-   migration_targets: '{{ _aap_seed_cluster_migration_targets | to_json }}'
+   migration_targets: '{{ _cluster_migration_targets | to_json }}'

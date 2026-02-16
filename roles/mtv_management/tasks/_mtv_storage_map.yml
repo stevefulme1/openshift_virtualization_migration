@@ -2,7 +2,7 @@
 
 - name: _mtv_storage_map | Initialize data structures
   ansible.builtin.set_fact:
-    mtv_management_mtv_storagemaps: {}
+    mtv_storagemaps: {}
 
 - name: _mtv_storage_map | Verify Storage Map Overrides do not contain both includes and excludes
   ansible.builtin.fail:
@@ -63,11 +63,11 @@
 
 - name: _mtv_storage_map | Template StorageMap Map
   ansible.builtin.set_fact:
-    mtv_management_storage_map: "{{ (lookup('ansible.builtin.template', 'storagemap.yml.j2') | from_yaml) | ansible.builtin.combine({'spec': {'map': (mtv_management_mtv_storagemap_maps | dict2items | map(attribute='value') | list)}}, recursive=true) }}" # noqa: yaml[line-length]
+    storage_map: "{{ (lookup('ansible.builtin.template', 'storagemap.yml.j2') | from_yaml) | ansible.builtin.combine({'spec': {'map': (mtv_storagemap_maps | dict2items | map(attribute='value') | list)}}, recursive=true) }}" # noqa: yaml[line-length]
 
 - name: _mtv_storage_map | Create Storage Map
   redhat.openshift.k8s:
     state: present
-    definition: "{{ mtv_management_storage_map }}"
+    definition: "{{ storage_map }}"
     apply: true
 ...

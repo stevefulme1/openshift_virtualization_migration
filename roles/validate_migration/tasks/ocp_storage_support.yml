@@ -3,7 +3,7 @@
   kubernetes.core.k8s_info:
     api_version: storage.k8s.io/v1
     kind: StorageClass
-  register: validate_migration_ocp_storage_class
+  register: infra_openshift_virtualization_migration_storage_class
 
 - name: ocp_storage_support | Available Storageclasses within OpenShift Cluster and Provisioner Status
   ansible.builtin.debug:
@@ -20,7 +20,7 @@
   #    - "item.metadata.annotations is defined"
   #    - "'storageclass.kubernetes.io/is-default-class' in item.metadata.annotations"
   #    - "item.metadata.annotations['storageclass.kubernetes.io/is-default-class'] == 'true'"
-  loop: "{{ validate_migration_ocp_storage_class.resources }}"
+  loop: "{{ infra_openshift_virtualization_migration_storage_class.resources }}"
   loop_control:
     label: "{{ item.metadata.name }}"
 
@@ -28,13 +28,13 @@
   kubernetes.core.k8s_info:
     api_version: v1
     kind: PersistentVolume
-  register: validate_migration_ocp_pvs
+  register: infra_openshift_virtualization_migration_pvs
 
-- name: ocp_storage_support | Check validate_migration_ocp_pvs for block storage with EXT4
+- name: ocp_storage_support | Check infra_openshift_virtualization_migration_pvs for block storage with EXT4
   ansible.builtin.set_fact:
-    validate_migration_ocp_block_ext4_pvs: >-
-      {{ validate_migration_ocp_block_ext4_pvs | default([]) + [item.metadata.name] }}
-  loop: "{{ validate_migration_ocp_pvs.resources }}"
+    infra_openshift_virtualization_migration_block_ext4_pvs: >-
+      {{ infra_openshift_virtualization_migration_block_ext4_pvs | default([]) + [item.metadata.name] }}
+  loop: "{{ infra_openshift_virtualization_migration_pvs.resources }}"
   when:
     #    - item.spec.volumeMode == 'Filesystem'
     - item.spec.volumeMode == 'Block'
@@ -46,6 +46,6 @@
       These persistent volumes created with an EXT4 file system. Increase the
       filesystem overhead in CDI to be more than 10%. If you do not increase
       the filesystem overhead in CDI by this amount, your migration will fail.
-      {{ validate_migration_ocp_block_ext4_pvs }}
-  when: validate_migration_ocp_block_ext4_pvs is defined
+      {{ infra_openshift_virtualization_migration_block_ext4_pvs }}
+  when: infra_openshift_virtualization_migration_block_ext4_pvs is defined
 ...

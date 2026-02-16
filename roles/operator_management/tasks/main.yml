@@ -3,7 +3,7 @@
   kubernetes.core.k8s_info:
     api_version: packages.operators.coreos.com/v1
     kind: PackageManifest
-  register: operator_management_packagemanifests_results
+  register: packagemanifests_results
   when: operator_management_operators | default(operator_management_default_operators) | length > 0
 
 - name: Disable default CatalogSources # noqa: fqcn[canonical]

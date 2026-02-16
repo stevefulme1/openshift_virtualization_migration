@@ -2,7 +2,7 @@
 
 - name: _plans | Set Plan Base Name
   ansible.builtin.set_fact:
-    _mtv_migrate_mtv_plan_base_name: "{{ mtv_migrate_migration_request['plan_name'] | default(mtv_migrate_default_plan_base_name) }}" # noqa: yaml[line-length]
+    _mtv_plan_base_name: "{{ mtv_migrate_migration_request['plan_name'] | default(mtv_migrate_default_plan_base_name) }}" # noqa: yaml[line-length]
 
 - name: _plans | Retrieve Configured providers
   ansible.builtin.include_role:
@@ -30,12 +30,12 @@
   kubernetes.core.k8s_info:
     api_version: forklift.konveyor.io/v1beta1
     kind: StorageMap
-  register: mtv_migrate_storagemap_results
+  register: storagemap_results
 
 - name: _plans | Verify StorageMap
   ansible.builtin.assert:
     that:
-      - mtv_migrate_storagemap_results.resources | selectattr('metadata.name', 'equalto', _mtv_storage_map_name) | selectattr('metadata.namespace', 'equalto', _mtv_storage_map_namespace) | list | length == 1 # noqa: yaml[line-length]
+      - storagemap_results.resources | selectattr('metadata.name', 'equalto', _mtv_storage_map_name) | selectattr('metadata.namespace', 'equalto', _mtv_storage_map_namespace) | list | length == 1 # noqa: yaml[line-length]
     quiet: true
     fail_msg: "Unable to locate StorageMap with name '{{ _mtv_storage_map_name }}' in namespace '{{ _mtv_storage_map_namespace }}'" # noqa: yaml[line-length]
 
@@ -43,18 +43,18 @@
   kubernetes.core.k8s_info:
     api_version: forklift.konveyor.io/v1beta1
     kind: NetworkMap
-  register: mtv_migrate_networkmap_results
+  register: networkmap_results
 
 - name: _plans | Verify NetworkMap
   ansible.builtin.assert:
     that:
-      - mtv_migrate_networkmap_results.resources | selectattr('metadata.name', 'equalto', _mtv_network_map_name) | selectattr('metadata.namespace', 'equalto', _mtv_network_map_namespace) | list | length == 1 # noqa: yaml[line-length]
+      - networkmap_results.resources | selectattr('metadata.name', 'equalto', _mtv_network_map_name) | selectattr('metadata.namespace', 'equalto', _mtv_network_map_namespace) | list | length == 1 # noqa: yaml[line-length]
     quiet: true
     fail_msg: "Unable to locate NetworkMap with name '{{ _mtv_network_map_name }}' in namespace '{{ _mtv_network_map_namespace }}'" # noqa: yaml[line-length]
 
 - name: _plans | Process Plan Skeleton
   ansible.builtin.set_fact:
-    _mtv_migrate_mtv_plan_skeleton: "{{ lookup('ansible.builtin.template', 'plan_skeleton.yml.j2') | from_yaml | ansible.builtin.combine({'spec': (mtv_migrate_migration_request['plan_overrides'] | default({}))}, recursive=true) }}" # noqa: yaml[line-length]
+    _mtv_plan_skeleton: "{{ lookup('ansible.builtin.template', 'plan_skeleton.yml.j2') | from_yaml | ansible.builtin.combine({'spec': (mtv_migrate_migration_request['plan_overrides'] | default({}))}, recursive=true) }}" # noqa: yaml[line-length]
 
 - name: _plans | Get Inventory vms
   ansible.builtin.include_role:
@@ -94,12 +94,12 @@
 
 - name: _plans | Flatten VM's to Migrate
   ansible.builtin.set_fact:
-    _mtv_migrate_final_mtv_vms_to_migrate: "{{ _mtv_vms_to_migrate | dict2items | map(attribute='value') | list }}"
+    _final_mtv_vms_to_migrate: "{{ _mtv_vms_to_migrate | dict2items | map(attribute='value') | list }}"
 
 - name: _plans | Verify Plan has VMs
   ansible.builtin.assert:
     that:
-      - _mtv_migrate_final_mtv_vms_to_migrate | length > 0
+      - _final_mtv_vms_to_migrate | length > 0
     quiet: true
     fail_msg: "No VM's exist in plan"
 
@@ -108,19 +108,17 @@
   loop_control:
     loop_var: _plan_vms
     index_var: _plan_vms_idx
-  loop: >-
-    "{{ _mtv_migrate_final_mtv_vms_to_migrate |
-     batch(_mtv_vms_per_plan | int if _mtv_split_plans | bool else -1) }}"
+  loop: "{{ _final_mtv_vms_to_migrate | batch(_mtv_vms_per_plan | int if _mtv_split_plans | bool else -1) }}"
 
 - name: _plans | Create and Verify Plans
   when: not _mtv_dry_run|bool
   block:
     - name: _plans | Create Plans
       redhat.openshift.k8s:
-        definition: "{{ _mtv_migrate_mtv_plans }}"
+        definition: "{{ _mtv_plans }}"
         state: present
         apply: true
-      register: mtv_migrate_plans_create_result
+      register: plans_create_result
 
     - name: _plans | Verify Plans Ready
       kubernetes.core.k8s_info:
@@ -128,31 +126,31 @@
         kind: "{{ created_plan.result.kind }}"
         name: "{{ created_plan.result.metadata.name }}"
         namespace: "{{ created_plan.result.metadata.namespace }}"
-      register: mtv_migrate_created_plan_status
+      register: created_plan_status
       loop_control:
         loop_var: created_plan
-      loop: "{{ mtv_migrate_plans_create_result.result.results if mtv_migrate_plans_create_result.result is defined and 'results' in mtv_migrate_plans_create_result.result else [mtv_migrate_plans_create_result] }}" # noqa: yaml[line-length]
+      loop: "{{ plans_create_result.result.results if plans_create_result.result is defined and 'results' in plans_create_result.result else [plans_create_result] }}" # noqa: yaml[line-length]
       when: _mtv_verify_plans_ready|bool
       until:
-        - mtv_migrate_created_plan_status is defined
-        - "'resources' in mtv_migrate_created_plan_status"
-        - mtv_migrate_created_plan_status.resources | length == 1
-        - "'status' in mtv_migrate_created_plan_status.resources|first"
-        - "'conditions' in (mtv_migrate_created_plan_status.resources|first).status"
-        - (mtv_migrate_created_plan_status.resources|first).status.conditions | selectattr('type', 'defined') | selectattr('status', 'defined') | selectattr('type', 'equalto', 'Ready') | selectattr('status', 'equalto', 'True') | list | length == 1 # noqa: yaml[line-length]
+        - created_plan_status is defined
+        - "'resources' in created_plan_status"
+        - created_plan_status.resources | length == 1
+        - "'status' in created_plan_status.resources|first"
+        - "'conditions' in (created_plan_status.resources|first).status"
+        - (created_plan_status.resources|first).status.conditions | selectattr('type', 'defined') | selectattr('status', 'defined') | selectattr('type', 'equalto', 'Ready') | selectattr('status', 'equalto', 'True') | list | length == 1 # noqa: yaml[line-length]
       retries: "{{ mtv_migrate_verify_plans_ready_retries }}"
       delay: "{{ mtv_migrate_verify_plans_ready_delay }}"
 
     - name: _plans | Set Created Plans to Migrate
       ansible.builtin.set_fact:
-        _mtv_migrate_mtv_plans_to_migrate: "{{ _mtv_migrate_mtv_plans_to_migrate | default([]) + [created_plan] }}"
-      loop: "{{ mtv_migrate_plans_create_result.result.results | map(attribute='result') | list if mtv_migrate_plans_create_result.result is defined and 'results' in mtv_migrate_plans_create_result.result else [mtv_migrate_plans_create_result] }}" # noqa: yaml[line-length]
+        _mtv_plans_to_migrate: "{{ _mtv_plans_to_migrate | default([]) + [created_plan] }}"
+      loop: "{{ plans_create_result.result.results | map(attribute='result') | list if plans_create_result.result is defined and 'results' in plans_create_result.result else [plans_create_result.result] }}" # noqa: yaml[line-length]
       loop_control:
         loop_var: created_plan
       when: _mtv_start_migration|bool
 
 - name: _plans | Display Plans (Dry Run)
   ansible.builtin.debug:
-    msg: "{{ _mtv_migrate_mtv_plans }}"
+    msg: "{{ _mtv_plans }}"
   when: _mtv_dry_run|bool
 ...

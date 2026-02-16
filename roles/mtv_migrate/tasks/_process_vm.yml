@@ -2,8 +2,8 @@
 
 - name: _process_vm | Initialize VM Variables
   ansible.builtin.set_fact:
-    _mtv_migrate_vm_to_process: {}
-    _mtv_migrate_vm_candidates: []
+    _vm_to_process: {}
+    _vm_candidates: []
 
 - name: _process_vm | Verify Name or ID or Path specified for VM
   ansible.builtin.assert:
@@ -14,17 +14,17 @@
 
 - name: _process_vm | Locate VM by name
   ansible.builtin.set_fact:
-    _mtv_migrate_vm_candidates: "{{ _mtv_inventory_vms | selectattr('name', 'equalto', vm_to_process['name']) | list }}"
+    _vm_candidates: "{{ _mtv_inventory_vms | selectattr('name', 'equalto', vm_to_process['name']) | list }}"
   when: "'name' in vm_to_process and 'id' not in vm_to_process and 'path' not in vm_to_process"
 
 - name: _process_vm | Locate VM by id
   ansible.builtin.set_fact:
-    _mtv_migrate_vm_candidates: "{{ _mtv_inventory_vms | selectattr('id', 'equalto', vm_to_process['id']) | list }}"
+    _vm_candidates: "{{ _mtv_inventory_vms | selectattr('id', 'equalto', vm_to_process['id']) | list }}"
   when: "'id' in vm_to_process and 'name' not in vm_to_process and 'path' not in vm_to_process"
 
 - name: _process_vm | Locate VM by path
   ansible.builtin.set_fact:
-    _mtv_migrate_vm_candidates: "{{ _mtv_inventory_vms | selectattr('path', 'equalto', vm_to_process['path']) | list }}"
+    _vm_candidates: "{{ _mtv_inventory_vms | selectattr('path', 'equalto', vm_to_process['path']) | list }}"
   when: "'path' in vm_to_process and 'id' not in vm_to_process and 'name' not in vm_to_process"
 
 - name: _process_vm | Verify single VM found
@@ -36,11 +36,11 @@
 
 - name: _process_vm | Set VM to Process
   ansible.builtin.set_fact:
-    _mtv_migrate_vm_to_process: "{{ _vm_candidates | first }}"
+    _vm_to_process: "{{ _vm_candidates | first }}"
 
 - name: _process_vm | Add VM to Migration Dict
   ansible.builtin.set_fact:
-    _mtv_migrate_mtv_vms_to_migrate: "{{ _mtv_vms_to_migrate | default({}) | ansible.builtin.combine({_vm_to_process.id: ({'id': _vm_to_process.id, 'name': _vm_to_process.name} | ansible.builtin.combine(folder_overrides | default({}), recursive=true) | ansible.builtin.combine(mtv_migrate_migration_request['vm_overrides'] | default({}), recursive=true) | ansible.builtin.combine(vm_to_process['overrides'] | default({}), recursive=true))}, recursive=true) }}" # noqa: yaml[line-length]
+    _mtv_vms_to_migrate: "{{ _mtv_vms_to_migrate | default({}) | ansible.builtin.combine({_vm_to_process.id: ({'id': _vm_to_process.id, 'name': _vm_to_process.name} | ansible.builtin.combine(folder_overrides | default({}), recursive=true) | ansible.builtin.combine(mtv_migrate_migration_request['vm_overrides'] | default({}), recursive=true) | ansible.builtin.combine(vm_to_process['overrides'] | default({}), recursive=true))}, recursive=true) }}" # noqa: yaml[line-length]
   when:
     - mtv_migrate_migration_request['vms'] | default([]) | selectattr('exclude', 'defined') | selectattr('exclude', 'equalto', true) | selectattr('name', 'defined') | selectattr('name', 'equalto', _vm_to_process['name']) | list | length == 0 # noqa: yaml[line-length]
     - mtv_migrate_migration_request['vms'] | default([]) | selectattr('exclude', 'defined') | selectattr('exclude', 'equalto', true) | selectattr('id', 'defined') | selectattr('id', 'equalto', _vm_to_process['id']) | list | length == 0 # noqa: yaml[line-length]
@@ -49,5 +49,5 @@
 
 - name: _process_vm | Clear VM Variables
   ansible.builtin.set_fact:
-    _mtv_migrate_vm_to_process: {}
+    _vm_to_process: {}
 ...

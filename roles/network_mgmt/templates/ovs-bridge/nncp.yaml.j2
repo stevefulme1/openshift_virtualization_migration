@@ -2,10 +2,10 @@ apiVersion: nmstate.io/v1
 kind: NodeNetworkConfigurationPolicy
 metadata:
   name: {{ vswitch.name | infra.openshift_virtualization_migration.rfc1123(network_mgmt_nncp_name_prefix) }}
-  annotations:
+  annotations: 
     infra.openshift-virtualization-migration/source-vswitch: "{{ vswitch.name }}"
     infra.openshift-virtualization-migration/provider-hostname: {{ network_mgmt_vcenter_hostname }}
-    infra.openshift-virtualization-migration/provider-type: vmware
+    infra.openshift-virtualization-migration/provider-type: vmware 
 spec:
   desiredState:
     ovn:
@@ -13,7 +13,7 @@ spec:
        - bridge: {{ ("br-ex" if network_mgmt_use_default_ovn_bridge else (vswitch.name | infra.openshift_virtualization_migration.rfc1123(network_mgmt_nncp_name_prefix))[:15]) }}
          localnet: localnet-default-vlan
          state: present
-{% for port_group in network_mgmt_portgrous_to_migrate %}
+{% for port_group in portgroups_to_migrate %}
 {% if (port_group['switch'] == vswitch.name)  and (port_group['uplinks'] > 0) and (not port_group['vlan']['trunk']) %}
        - bridge: {{ ("br-ex" if network_mgmt_use_default_ovn_bridge else (vswitch.name | infra.openshift_virtualization_migration.rfc1123(network_mgmt_nncp_name_prefix))[:15]) }}
          localnet: localnet-vlan-{{ port_group['vlan']['vlan_id'] }}
@@ -52,7 +52,7 @@ spec:
         state: up
         type: ovs-bridge
 {% for port in network_mgmt_openshift_node_network_ports %}
-      - ipv4:
+      - ipv4:  
           enabled: false
         ipv6:
           enabled: false
@@ -65,3 +65,4 @@ spec:
   maxUnavailable: {{ network_mgmt_nncp_max_unavailable }}
   nodeSelector:
     {{ network_mgmt_nncp_nodeselector }}
+

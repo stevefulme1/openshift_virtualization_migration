@@ -2,7 +2,7 @@
 
 - name: _mtv_network_map | Initialize data structures
   ansible.builtin.set_fact:
-    mtv_management_mtv_networkmap_maps: {}
+    mtv_networkmap_maps: {}
 
 - name: _mtv_network_map | Verify Network Map Overrides do not contain both includes and excludes
   ansible.builtin.fail:
@@ -54,11 +54,11 @@
 
 - name: _mtv_network_map | Template NetworkMap Map
   ansible.builtin.set_fact:
-    mtv_management_network_map: "{{ (lookup('ansible.builtin.template', 'networkmap.yml.j2') | from_yaml) | ansible.builtin.combine({'spec': {'map': (mtv_management_mtv_networkmap_maps | dict2items | map(attribute='value') | list)}}, recursive=true) }}" # noqa: yaml[line-length]
+    network_map: "{{ (lookup('ansible.builtin.template', 'networkmap.yml.j2') | from_yaml) | ansible.builtin.combine({'spec': {'map': (mtv_networkmap_maps | dict2items | map(attribute='value') | list)}}, recursive=true) }}" # noqa: yaml[line-length]
 
 - name: _mtv_network_map | Create Network Map
   redhat.openshift.k8s:
     state: present
-    definition: "{{ mtv_management_network_map }}"
+    definition: "{{ network_map }}"
     apply: true
 ...

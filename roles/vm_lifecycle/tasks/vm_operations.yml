@@ -10,7 +10,7 @@
 
 - name: vm_operations | Initialize Variables
   ansible.builtin.set_fact:
-    vm_lifecycle_vm_operations_vms: []
+    vm_operations_vms: []
 
 - name: vm_operations | Collect VM's
   ansible.builtin.include_tasks:
@@ -22,7 +22,7 @@
 - name: vm_operations | Print VM's
   ansible.builtin.debug:
     msg: "Namespace: {{ vm_operations_vm.vm.metadata.namespace }} - Name: {{ vm_operations_vm.vm.metadata.name }} - Operation: {{ vm_operations_vm.operation }}" # noqa: yaml[line-length]
-  loop: "{{ vm_lifecycle_vm_operations_vms }}"
+  loop: "{{ vm_operations_vms }}"
   loop_control:
     loop_var: vm_operations_vm
     label: "Namespace: {{ vm_operations_vm.vm.metadata.namespace }} - Name: {{ vm_operations_vm.vm.metadata.name }}"
@@ -30,7 +30,7 @@
 - name: vm_operations | Perform VM Operations
   ansible.builtin.include_tasks:
     file: _perform_operation.yml
-  loop: "{{ vm_lifecycle_vm_operations_vms }}"
+  loop: "{{ vm_operations_vms }}"
   loop_control:
     loop_var: vm_operations_vm
     label: "Namespace: {{ vm_operations_vm.vm.metadata.namespace }} - Name: {{ vm_operations_vm.vm.metadata.name }} - Operation: {{ vm_operations_vm.operation }}" # noqa: yaml[line-length]
@@ -38,7 +38,7 @@
 - name: vm_operations | Verify VMs
   ansible.builtin.include_tasks:
     file: _verify_operation.yml
-  loop: "{{ vm_lifecycle_vm_operations_vms }}"
+  loop: "{{ vm_operations_vms }}"
   loop_control:
     loop_var: vm_operations_vm
     label: "Namespace: {{ vm_operations_vm.vm.metadata.namespace }} - Name: {{ vm_operations_vm.vm.metadata.name }} - Operation: {{ vm_operations_vm.operation }}" # noqa: yaml[line-length]

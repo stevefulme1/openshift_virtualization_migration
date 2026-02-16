@@ -3,7 +3,7 @@
 
 - name: Initialize Variables
   ansible.builtin.set_fact:
-    _aap_machine_credentials_controller_credentials: []
+    _controller_credentials: []
 
 - name: Process Machine Credentials
   ansible.builtin.include_tasks:
@@ -37,9 +37,9 @@
       when: aap_version is not defined or aap_version is version('2.5', '>=')
 
 - name: Call credential config as code role
-  when: _aap_machine_credentials_controller_credentials | length > 0
+  when: _controller_credentials | length > 0
   ansible.builtin.include_role:
     name: "{{ aap_machine_credentials_cac_credentials_role }}"
   vars:
-    controller_credentials: "{{ _aap_machine_credentials_controller_credentials }}"
+    controller_credentials: "{{ _controller_credentials }}"
 ...

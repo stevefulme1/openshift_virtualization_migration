@@ -4,7 +4,7 @@
     - _target_type == 'vmware'
     - (_mtv_job_template | trim | length) > 0
   ansible.builtin.set_fact:
-    aap_seed_controller_templates: "{{ aap_seed_controller_templates + [_mtv_job_template | from_yaml] }}"
+    controller_templates: "{{ controller_templates + [_mtv_job_template | from_yaml] }}"
   loop:
     - "mtv_provider_job_template.yaml.j2"
     - "configure_network_job_template.yaml.j2"
@@ -24,7 +24,7 @@
     - _target_type == 'ovirt'
     - (_mtv_job_template | trim | length) > 0
   ansible.builtin.set_fact:
-    aap_seed_controller_templates: "{{ aap_seed_controller_templates + [_mtv_job_template | from_yaml] }}"
+    controller_templates: "{{ controller_templates + [_mtv_job_template | from_yaml] }}"
   loop:
     - "mtv_provider_job_template.yaml.j2"
     - "configure_network_job_template.yaml.j2"

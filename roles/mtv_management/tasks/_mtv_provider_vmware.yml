@@ -9,56 +9,54 @@
 
 - name: _mtv_provider_vmware | Set provider name
   ansible.builtin.set_fact:
-    mtv_management_populated_vmware_target: "{{ vmware_target | ansible.builtin.combine({'name': mtv_management_vmware_provider_default_name | infra.openshift_virtualization_migration.rfc1123}) if single_vmware_target and 'name' not in vmware_target else vmware_target | ansible.builtin.combine({'name': vmware_target['name'] | infra.openshift_virtualization_migration.rfc1123}) }}" # noqa: yaml[line-length]
+    populated_vmware_target: "{{ vmware_target | ansible.builtin.combine({'name': mtv_management_vmware_provider_default_name | infra.openshift_virtualization_migration.rfc1123}) if single_vmware_target and 'name' not in vmware_target else vmware_target | ansible.builtin.combine({'name': vmware_target['name'] | infra.openshift_virtualization_migration.rfc1123}) }}" # noqa: yaml[line-length]
 
 - name: _mtv_provider_vmware | Validate required VMware provider Properties
   ansible.builtin.assert:
     that:
-      - "'host' in mtv_management_populated_vmware_target"
-      - mtv_management_populated_vmware_target.host | default("", true) | length > 0
-      - "'username' in mtv_management_populated_vmware_target"
-      - mtv_management_populated_vmware_target.username | default("", true) | length > 0
-      - "'password' in mtv_management_populated_vmware_target"
-      - mtv_management_populated_vmware_target.password | default("", true) | length > 0
+      - "'host' in populated_vmware_target"
+      - populated_vmware_target.host | default("", true) | length > 0
+      - "'username' in populated_vmware_target"
+      - populated_vmware_target.username | default("", true) | length > 0
+      - "'password' in populated_vmware_target"
+      - populated_vmware_target.password | default("", true) | length > 0
     quiet: true
-    fail_msg: |
-      "Required properties have not been set for VMware credential 'mtv_management_populated_vmware_target.name'"
+    fail_msg: "Required properties have not been set for VMware credential 'populated_vmware_target.name'"
 
 - name: _mtv_provider_vmware | Set VMware Provider URL
   ansible.builtin.set_fact:
-    mtv_management_mtv_vmware_url: https://{{ (mtv_management_populated_vmware_target.host + (mtv_management_populated_vmware_target['sdkEndpoint'] | default(mtv_management_vmware_provider_default_sdk_endpoint)) | ansible.builtin.regex_replace('\/\/', '/')) | ansible.builtin.regex_replace('\/$', '') }} # noqa: yaml[line-length]
+    mtv_vmware_url: https://{{ (populated_vmware_target.host + (populated_vmware_target['sdkEndpoint'] | default(mtv_management_vmware_provider_default_sdk_endpoint)) | ansible.builtin.regex_replace('\/\/', '/')) | ansible.builtin.regex_replace('\/$', '') }} # noqa: yaml[line-length]
 
 - name: _mtv_provider_vmware | MTV Certificate
-  when: "'certificate' not in mtv_management_populated_vmware_target or (mtv_management_populated_vmware_target['certificate'] | default('') | trim | length == 0)" # noqa: yaml[line-length]
+  when: "'certificate' not in populated_vmware_target or (populated_vmware_target['certificate'] | default('') | trim | length == 0)" # noqa: yaml[line-length]
   block:
     - name: _mtv_provider_vmware | Retrieve Remote VMware Provider Certificate
       community.crypto.get_certificate:
-        host: "{{ mtv_management_mtv_vmware_url | urlsplit('hostname') }}"
-        port: "{{ (mtv_management_mtv_vmware_url | urlsplit('port') | default('443', true)) | int }}"
-      register: mtv_management_mtv_remote_cert
+        host: "{{ mtv_vmware_url | urlsplit('hostname') }}"
+        port: "{{ (mtv_vmware_url | urlsplit('port') | default('443', true)) | int }}"
+      register: mtv_remote_cert
 
     - name: _mtv_provider_vmware | Set VMware Provider Certificate
       ansible.builtin.set_fact:
-        mtv_management_populated_vmware_target: "{{ mtv_management_populated_vmware_target | ansible.builtin.combine({'certificate': mtv_management_mtv_remote_cert.cert}) }}" # noqa: yaml[line-length]
+        populated_vmware_target: "{{ populated_vmware_target | ansible.builtin.combine({'certificate': mtv_remote_cert.cert}) }}" # noqa: yaml[line-length]
 
 - name: _mtv_provider_vmware | Set Provider Secret Name/Namespace (Configuration)
-  when: "'credentialsSecretRef' in mtv_management_populated_vmware_target and (mtv_management_populated_vmware_target['credentialsSecretRef'] | default('') | trim | length > 0)" # noqa: yaml[line-length]
+  when: "'credentialsSecretRef' in populated_vmware_target and (populated_vmware_target['credentialsSecretRef'] | default('') | trim | length > 0)" # noqa: yaml[line-length]
   ansible.builtin.set_fact:
-    mtv_management_vmware_provider_secret_name: "{{ (mtv_management_populated_vmware_target['credentialsSecretRef'] | ansible.builtin.split('/'))[1] if mtv_management_populated_vmware_target['credentialsSecretRef'] | ansible.builtin.split('/') | length == 2 else mtv_management_populated_vmware_target['credentialsSecretRef'] }}" # noqa: yaml[line-length]
-    mtv_management_vmware_provider_secret_namespace: "(mtv_management_populated_vmware_target['credentialsSecretRef'] | ansible.builtin.split('/'))[0] if mtv_management_populated_vmware_target['network_attachment_definition'] | ansible.builtin.split('/') | length == 2 else mtv_management_provider_namespace }}" # noqa: yaml[line-length]
+    vmware_provider_secret_name: "{{ (populated_vmware_target['credentialsSecretRef'] | ansible.builtin.split('/'))[1] if populated_vmware_target['credentialsSecretRef'] | ansible.builtin.split('/') | length == 2 else populated_vmware_target['credentialsSecretRef'] }}" # noqa: yaml[line-length]
+    vmware_provider_secret_namespace: "(populated_vmware_target['credentialsSecretRef'] | ansible.builtin.split('/'))[0] if populated_vmware_target['network_attachment_definition'] | ansible.builtin.split('/') | length == 2 else mtv_management_provider_namespace }}" # noqa: yaml[line-length]
 
 - name: _mtv_provider_vmware | Configure Provider Secret
-  when: "'credentialsSecretRef' not in mtv_management_populated_vmware_target or (mtv_management_populated_vmware_target['credentialsSecretRef'] | default('') | trim | length == 0)" # noqa: yaml[line-length]
+  when: "'credentialsSecretRef' not in populated_vmware_target or (populated_vmware_target['credentialsSecretRef'] | default('') | trim | length == 0)" # noqa: yaml[line-length]
   block:
     - name: _mtv_provider_vmware | Set Provider Secret Name/Namespace (Generated)
-      when: "'credentialsSecretRef' not in mtv_management_populated_vmware_target or (mtv_management_populated_vmware_target['credentialsSecretRef'] | default('') | trim | length == 0)" # noqa: yaml[line-length]
+      when: "'credentialsSecretRef' not in populated_vmware_target or (populated_vmware_target['credentialsSecretRef'] | default('') | trim | length == 0)" # noqa: yaml[line-length]
       ansible.builtin.set_fact:
-        mtv_management_vmware_provider_secret_name: >-
-          "vmware-{{ mtv_management_populated_vmware_target['name'] }}-credentials"
-        mtv_management_vmware_provider_secret_namespace: "{{ mtv_management_provider_namespace }}"
+        vmware_provider_secret_name: "vmware-{{ populated_vmware_target['name'] }}-credentials"
+        vmware_provider_secret_namespace: "{{ mtv_management_provider_namespace }}"
 
     - name: _mtv_provider_vmware | Create VMware credentials secret
-      when: "'credentialsSecretRef' not in mtv_management_populated_vmware_target or (mtv_management_populated_vmware_target['credentialsSecretRef'] | default('') | trim | length == 0)" # noqa: yaml[line-length]
+      when: "'credentialsSecretRef' not in populated_vmware_target or (populated_vmware_target['credentialsSecretRef'] | default('') | trim | length == 0)" # noqa: yaml[line-length]
       redhat.openshift.k8s:
         state: present
         definition:
@@ -66,14 +64,14 @@
           kind: Secret
           type: Opaque
           metadata:
-            name: "{{ mtv_management_vmware_provider_secret_name }}"
-            namespace: "{{ mtv_management_vmware_provider_secret_namespace }}"
+            name: "{{ vmware_provider_secret_name }}"
+            namespace: "{{ vmware_provider_secret_namespace }}"
           data:
-            insecureSkipVerify: "{{ (mtv_management_populated_vmware_target.insecureSkipTlsVerify | default(mtv_management_vmware_provider_insecure_skip_tls_verify) | bool) | b64encode if 'certificate' not in mtv_management_populated_vmware_target or mtv_management_populated_vmware_target['certificate'] | default('') | trim | length == 0 else false | b64encode }}" # noqa: yaml[line-length]
-            password: "{{ mtv_management_populated_vmware_target.password | b64encode }}"
-            url: "{{ mtv_management_mtv_vmware_url | b64encode }}"
-            user: "{{ mtv_management_populated_vmware_target.username | b64encode }}"
-            cacert: "{{ mtv_management_populated_vmware_target.certificate | b64encode }}"
+            insecureSkipVerify: "{{ (populated_vmware_target.insecureSkipTlsVerify | default(mtv_management_vmware_provider_insecure_skip_tls_verify) | bool) | b64encode if 'certificate' not in populated_vmware_target or populated_vmware_target['certificate'] | default('') | trim | length == 0 else false | b64encode }}" # noqa: yaml[line-length]
+            password: "{{ populated_vmware_target.password | b64encode }}"
+            url: "{{ mtv_vmware_url | b64encode }}"
+            user: "{{ populated_vmware_target.username | b64encode }}"
+            cacert: "{{ populated_vmware_target.certificate | b64encode }}"
         apply: true
 
 - name: _mtv_provider_vmware | Create VMware Provider resource
@@ -81,10 +79,10 @@
     state: present
     definition: "{{ (lookup('ansible.builtin.template', 'vmware_provider_skeleton.yml.j2') | from_yaml) }}"
     apply: true
-  register: mtv_management_r_vmware_provider
+  register: r_vmware_provider
   retries: 100
   delay: 10
   until:
-    - mtv_management_r_vmware_provider.result is defined
-    - mtv_management_r_vmware_provider.result | length > 0
+    - r_vmware_provider.result is defined
+    - r_vmware_provider.result | length > 0
 ...

@@ -27,9 +27,9 @@
     wait_timeout: "{{ vm_backup_restore_vm_snapshot_wait_timeout }}"
     wait_condition:
       type: Ready
-  register: vm_backup_restore_snapshot_vm_result
+  register: snapshot_vm_result
 
 - name: _snapshot_vm | Print Snapshot Name
   ansible.builtin.debug:
-    msg: "Snapshot Created: Namespace: {{ vm_backup_restore_snapshot_vm_result.result.metadata.namespace }} - Name: {{ vm_backup_restore_snapshot_vm_result.result.metadata.name }}" # noqa: yaml[line-length]
+    msg: "Snapshot Created: Namespace: {{ snapshot_vm_result.result.metadata.namespace }} - Name: {{ snapshot_vm_result.result.metadata.name }}" # noqa: yaml[line-length]
 ...

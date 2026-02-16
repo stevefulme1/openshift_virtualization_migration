@@ -5,14 +5,14 @@
 
 - name: automatic | Set the switches and portgroups to migrate
   ansible.builtin.set_fact:
-    network_mgmt_switches_to_migrate: >-
+    switches_to_migrate: >-
       {{
-        network_mgmt_dvswitch_info.distributed_virtual_switches |
+        dvswitch_info.distributed_virtual_switches |
         json_query("[].{name: configure.name, mtu: configure.settings.properties.advanced.maxMtu}" )
       }}
-    network_mgmt_portgroups_to_migrate: >-
+    portgroups_to_migrate: >-
       {{
-        network_mgmt_dvpg_info.dvs_portgroup_info
+        dvpg_info.dvs_portgroup_info
         | dict2items(key_name="name", value_name="ports")
         | map(attribute="ports")
         | flatten

@@ -1,7 +1,7 @@
 ---
 - name: "_operator_catalog_source_item | Set Fact: {{ _catalogsource_item.key }}"
   ansible.builtin.set_fact:
-    _operator_management_resource: >-
+    _resource: >-
       {{
         lookup('ansible.builtin.template', 'catalogsource_skeleton.yml.j2')
         | from_yaml
@@ -11,6 +11,6 @@
 - name: _operator_catalog_source_item | Apply Resource {{ _catalogsource_item.key }}
   redhat.openshift.k8s: # noqa: fqcn[canonical]
     state: present
-    definition: "{{ _operator_management_resource }}"
+    definition: "{{ _resource }}"
     apply: true
 ...

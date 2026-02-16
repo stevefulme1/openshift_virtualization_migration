@@ -1,7 +1,7 @@
 ---
 - name: job_templates | Set templates variable
   ansible.builtin.set_fact:
-    aap_seed_controller_templates: []
+    controller_templates: []
 
 - name: job_templates | Build Operator Install Job Templates
   ansible.builtin.include_tasks: _build_job_templates.yml
