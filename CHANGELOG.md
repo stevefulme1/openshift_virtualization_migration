@@ -1,13 +1,5 @@
 # CHANGELOG
 
-
-## v1.21.2 (2025-09-22)
-
-### Bug Fixes
-
-- Handle capitalized Fix,Feat and package release needs
-- Handle capitalized Fix,Feat and package release needs
-
 ## v1.21.1 (2025-07-30)
 
 ### Bug Fixes

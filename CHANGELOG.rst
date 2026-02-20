@@ -4,9 +4,6 @@ Openshift Virtualization Migration Release Notes
 
 .. contents:: Topics
 
-v1.21.2
-=======
-
 v1.21.1
 =======
 
