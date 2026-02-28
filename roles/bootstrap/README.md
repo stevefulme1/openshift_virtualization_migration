@@ -12,6 +12,8 @@ This will not be overwritten by Docsible -->
 Role belongs to infra/openshift_virtualization_migration
 Namespace - infra
 Collection - openshift_virtualization_migration
+Version - 1.21.1
+Repository - https://github.com/redhat-cop/openshift_virtualization_migration
 ```
 
 Description: Initialization of the Ansible for OpenShift Virtualization Migration environment.
@@ -29,7 +31,7 @@ Description: Initialization of the Ansible for OpenShift Virtualization Migratio
 | [`bootstrap_aap_setup_working_dir`](defaults/main.yml#L14)   | str   | `/home/ansible/bootstrap_dir` |  None  |   true  |  Working direcotry on the bootstrap host |
 | [`bootstrap_rh_username`](defaults/main.yml#L18)   | str   | `{{ rh_username }}` |  None  |   true  |  Red Hat account login (this is used to attach your subs to controller) |
 | [`bootstrap_rh_password`](defaults/main.yml#L22)   | str   | `{{ rh_password }}` |  None  |   true  |  Red Hat account password |
-| [`bootstrap_rh_pool_id`](defaults/main.yml#L26)   | str   | `` |  None  |   true  |  Red Hat pool ID |
+| [`bootstrap_rh_subscription_id`](defaults/main.yml#L26)   | str   | `` |  None  |   true  |  Red Hat subscription ID |
 | [`bootstrap_rh_filter_product_name`](defaults/main.yml#L30)   | str   | `Red Hat Ansible Automation Platform` |  None  |   false  |  Red Hat subscription product name |
 | [`bootstrap_rh_filter_support_level`](defaults/main.yml#L34)   | str   | `Self-Support` |  None  |   false  |  Red Hat subscription support level |
 | [`bootstrap_controller_password`](defaults/main.yml#L38)   | str   | `{{ controller_password }}` |  None  |   true  |  The admin password for the controller |
@@ -54,7 +56,7 @@ Description: Initialization of the Ansible for OpenShift Virtualization Migratio
 <br>
 <b>`bootstrap_rh_password`:</b> None
 <br>
-<b>`bootstrap_rh_pool_id`:</b> None
+<b>`bootstrap_rh_subscription_id`:</b> None
 <br>
 <b>`bootstrap_rh_filter_product_name`:</b> None
 <br>
@@ -94,8 +96,8 @@ Description: Initialization of the Ansible for OpenShift Virtualization Migratio
 | ---- | ------ | --------- |
 | aap_subscription ¦ Get subscriptions with a filter | `block` | True |
 | aap_subscription ¦ Query Subscription | `ansible.controller.subscriptions` | False |
-| aap_subscription ¦ Set pool based on bootstrap_subscription | `ansible.builtin.set_fact` | False |
-| aap_subscription ¦ Attach to a pool | `ansible.controller.license` | False |
+| aap_subscription ¦ Set subscription ID based on bootstrap_subscription | `ansible.builtin.set_fact` | False |
+| aap_subscription ¦ Attach to a subscription | `ansible.controller.license` | False |
 | aap_subscription ¦ Verify License Manifest Exists | `block` | True |
 | aap_subscription ¦ Check if license file exists | `ansible.builtin.stat` | False |
 | aap_subscription ¦ Verify license file exists | `ansible.builtin.assert` | False |
@@ -144,6 +146,27 @@ classDef rescue stroke:#665352,stroke-width:2px;
   Subscribe_AAP_aap_subscription_yml_0-->End
 ```
 
+### Graph for create_mf_aap_token.yml
+
+```mermaid
+flowchart TD
+Start
+classDef block stroke:#3498db,stroke-width:2px;
+classDef task stroke:#4b76bb,stroke-width:2px;
+classDef includeTasks stroke:#16a085,stroke-width:2px;
+classDef importTasks stroke:#34495e,stroke-width:2px;
+classDef includeRole stroke:#2980b9,stroke-width:2px;
+classDef importRole stroke:#699ba7,stroke-width:2px;
+classDef includeVars stroke:#8e44ad,stroke-width:2px;
+classDef rescue stroke:#665352,stroke-width:2px;
+
+  Start-->|Task| create_mf_aap_token___Create_API_key_for_Migration_Factory_AAP0[create mf aap token   create api key for migration<br>factory aap]:::task
+  create_mf_aap_token___Create_API_key_for_Migration_Factory_AAP0-->|Task| create_mf_aap_token___Retrieve_Migration_Factory_AAP_Service_Account_API_key1[create mf aap token   retrieve migration factory<br>aap service account api key]:::task
+  create_mf_aap_token___Retrieve_Migration_Factory_AAP_Service_Account_API_key1-->|Task| create_mf_aap_token___Set_fact_with_Service_Account_API_key2[create mf aap token   set fact with service<br>account api key]:::task
+  create_mf_aap_token___Set_fact_with_Service_Account_API_key2-->|Task| create_mf_aap_token___Print_Migration_Factory_AAP_Service_Account_API_key3[create mf aap token   print migration factory aap<br>service account api key]:::task
+  create_mf_aap_token___Print_Migration_Factory_AAP_Service_Account_API_key3-->End
+```
+
 ### Graph for prep.yml
 
 ```mermaid
@@ -183,39 +206,18 @@ classDef importRole stroke:#699ba7,stroke-width:2px;
 classDef includeVars stroke:#8e44ad,stroke-width:2px;
 classDef rescue stroke:#665352,stroke-width:2px;
 
-  Start-->|Block Start| aap_subscription___Get_subscriptions_with_a_filter0_block_start_0[[aap subscription   get subscriptions with a filter<br>When: **bootstrap rh pool id   default     true    trim  <br>length    0 and bootstrap aap license manifest  <br>default     true    trim   length    0**]]:::block
+  Start-->|Block Start| aap_subscription___Get_subscriptions_with_a_filter0_block_start_0[[aap subscription   get subscriptions with a filter<br>When: **bootstrap rh subscription id   default     true   <br>trim   length    0 and bootstrap aap license<br>manifest   default     true    trim   length    0**]]:::block
   aap_subscription___Get_subscriptions_with_a_filter0_block_start_0-->|Task| aap_subscription___Query_Subscription0[aap subscription   query subscription]:::task
-  aap_subscription___Query_Subscription0-->|Task| aap_subscription___Set_pool_based_on_bootstrap_subscription1[aap subscription   set pool based on bootstrap<br>subscription]:::task
-  aap_subscription___Set_pool_based_on_bootstrap_subscription1-->|Task| aap_subscription___Attach_to_a_pool2[aap subscription   attach to a pool]:::task
-  aap_subscription___Attach_to_a_pool2-.->|End of Block| aap_subscription___Get_subscriptions_with_a_filter0_block_start_0
-  aap_subscription___Attach_to_a_pool2-->|Block Start| aap_subscription___Verify_License_Manifest_Exists1_block_start_0[[aap subscription   verify license manifest exists<br>When: **bootstrap aap license manifest   default     true <br>  trim   length   0**]]:::block
+  aap_subscription___Query_Subscription0-->|Task| aap_subscription___Set_subscription_ID_based_on_bootstrap_subscription1[aap subscription   set subscription id based on<br>bootstrap subscription]:::task
+  aap_subscription___Set_subscription_ID_based_on_bootstrap_subscription1-->|Task| aap_subscription___Attach_to_a_subscription2[aap subscription   attach to a subscription]:::task
+  aap_subscription___Attach_to_a_subscription2-.->|End of Block| aap_subscription___Get_subscriptions_with_a_filter0_block_start_0
+  aap_subscription___Attach_to_a_subscription2-->|Block Start| aap_subscription___Verify_License_Manifest_Exists1_block_start_0[[aap subscription   verify license manifest exists<br>When: **bootstrap aap license manifest   default     true <br>  trim   length   0**]]:::block
   aap_subscription___Verify_License_Manifest_Exists1_block_start_0-->|Task| aap_subscription___Check_if_license_file_exists0[aap subscription   check if license file exists]:::task
   aap_subscription___Check_if_license_file_exists0-->|Task| aap_subscription___Verify_license_file_exists1[aap subscription   verify license file exists]:::task
   aap_subscription___Verify_license_file_exists1-->|Task| aap_subscription___Read_the_License_file2[aap subscription   read the license file]:::task
   aap_subscription___Read_the_License_file2-->|Task| aap_subscription___Apply_license_to_AAP3[aap subscription   apply license to aap]:::task
   aap_subscription___Apply_license_to_AAP3-.->|End of Block| aap_subscription___Verify_License_Manifest_Exists1_block_start_0
   aap_subscription___Apply_license_to_AAP3-->End
-```
-
-### Graph for create_mf_aap_token.yml
-
-```mermaid
-flowchart TD
-Start
-classDef block stroke:#3498db,stroke-width:2px;
-classDef task stroke:#4b76bb,stroke-width:2px;
-classDef includeTasks stroke:#16a085,stroke-width:2px;
-classDef importTasks stroke:#34495e,stroke-width:2px;
-classDef includeRole stroke:#2980b9,stroke-width:2px;
-classDef importRole stroke:#699ba7,stroke-width:2px;
-classDef includeVars stroke:#8e44ad,stroke-width:2px;
-classDef rescue stroke:#665352,stroke-width:2px;
-
-  Start-->|Task| create_mf_aap_token___Create_API_key_for_Migration_Factory_AAP0[create mf aap token   create api key for migration<br>factory aap]:::task
-  create_mf_aap_token___Create_API_key_for_Migration_Factory_AAP0-->|Task| create_mf_aap_token___Retrieve_Migration_Factory_AAP_Service_Account_API_key1[create mf aap token   retrieve migration factory<br>aap service account api key]:::task
-  create_mf_aap_token___Retrieve_Migration_Factory_AAP_Service_Account_API_key1-->|Task| create_mf_aap_token___Set_fact_with_Service_Account_API_key2[create mf aap token   set fact with service<br>account api key]:::task
-  create_mf_aap_token___Set_fact_with_Service_Account_API_key2-->|Task| create_mf_aap_token___Print_Migration_Factory_AAP_Service_Account_API_key3[create mf aap token   print migration factory aap<br>service account api key]:::task
-  create_mf_aap_token___Print_Migration_Factory_AAP_Service_Account_API_key3-->End
 ```
 
 ## Playbook

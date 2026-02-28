@@ -14,6 +14,8 @@ This role defines the initial configuration and setup of the Ansible Automation 
 Role belongs to infra/openshift_virtualization_migration
 Namespace - infra
 Collection - openshift_virtualization_migration
+Version - 1.21.1
+Repository - https://github.com/redhat-cop/openshift_virtualization_migration
 ```
 
 Description: Populates an Ansible Automation Platform instance.
@@ -72,7 +74,7 @@ Description: Populates an Ansible Automation Platform instance.
 | [`aap_seed_container_password`](defaults/main.yml#L242)   | str   | `{{ container_password }}` |  None  |   True  |  AAP Container Password |
 | [`aap_seed_container_username`](defaults/main.yml#L247)   | str   | `{{ container_username }}` |  None  |   True  |  AAP Container Username |
 | [`aap_seed_container_verify_ssl`](defaults/main.yml#L252)   | str   | `{{ container_verify_ssl ¦ default(false) }}` |  None  |   True  |  Container Verify SSL |
-| [`aap_seed_aap_job_template_extra_vars`](defaults/main.yml#L257)   | str   | `{{ aap_job_template_extra_vars ¦ default('{}') }}` |  None  |   True  |  AAP Job Template Variables |
+| [`aap_seed_aap_job_template_extra_vars`](defaults/main.yml#L257)   | str   | `{{ aap_job_template_extra_vars ¦ default({}) }}` |  None  |   True  |  AAP Job Template Variables |
 | [`aap_seed_migration_targets`](defaults/main.yml#L262)   | str   | `{{ migration_targets ¦ default([]) }}` |  None  |   True  |  Migration Targets |
 | [`aap_seed_operator_management_hub`](defaults/main.yml#L268)   | list   | `[]` |  None  |   True  |  Default Management Hub Operators |
 | [`aap_seed_operator_management_hub.0`](defaults/main.yml#L269)   | str   | `acm` |  None  |   None  |  None |
@@ -1092,6 +1094,8 @@ Description: Populates an Ansible Automation Platform instance.
 | Check if both username/password and token are defined | `ansible.builtin.debug` | True |
 | Wait for API to become available using username and password | `ansible.builtin.uri` | True |
 | Wait for API to become available using token | `ansible.builtin.uri` | True |
+| Set controller_configuration vars | `ansible.builtin.set_fact` | False |
+| Set variables for {{ aap_seed_cac_collection }} | `ansible.builtin.set_fact` | False |
 | Call dispatch role | `ansible.builtin.include_role` | False |
 
 #### File: tasks/_build_credentials.yml
@@ -1120,7 +1124,7 @@ Description: Populates an Ansible Automation Platform instance.
 | Name | Module | Has Conditions |
 | ---- | ------ | --------- |
 | _mtv_job_templates ¦ Configure VMWare MTV Job Template | `ansible.builtin.set_fact` | True |
-| _mtv_job_templates ¦ Configure Ovirt MTV Job Template | `ansible.builtin.set_fact` | True |
+| _mtv_job_templates ¦ Configure oVirt MTV Job Template | `ansible.builtin.set_fact` | True |
 
 #### File: tasks/_mtv_workflow_job_templates.yml
 
@@ -1157,8 +1161,8 @@ Description: Populates an Ansible Automation Platform instance.
 | workflows ¦ Set workflow variables | `ansible.builtin.set_fact` | False |
 | workflows ¦ Build Operator Workflows | `ansible.builtin.set_fact` | False |
 | workflows ¦ Build MTV Target Workflows | `ansible.builtin.include_tasks` | False |
-| workflows ¦ Build MTV Worklfow | `ansible.builtin.set_fact` | False |
-| workflows ¦ Build Migration Factory Worklfow | `ansible.builtin.set_fact` | False |
+| workflows ¦ Build MTV Workflow | `ansible.builtin.set_fact` | False |
+| workflows ¦ Build Migration Factory Workflow | `ansible.builtin.set_fact` | False |
 
 ## Task Flow Graphs
 
@@ -1182,25 +1186,6 @@ classDef rescue stroke:#665352,stroke-width:2px;
   _build_credentials___Build_migration_targets2-->|Task| _build_credentials___Build_Migration_Factory_CaC_Credential_for__mf_host3[ build credentials   build migration factory cac<br>credential for  mf host<br>When: **mf host in groups  migration spoke**]:::task
   _build_credentials___Build_Migration_Factory_CaC_Credential_for__mf_host3-->|Task| _build_credentials___Build_kubeconfig_for__mf_host4[ build credentials   build kubeconfig for  mf host]:::task
   _build_credentials___Build_kubeconfig_for__mf_host4-->End
-```
-
-### Graph for _mtv_job_templates.yml
-
-```mermaid
-flowchart TD
-Start
-classDef block stroke:#3498db,stroke-width:2px;
-classDef task stroke:#4b76bb,stroke-width:2px;
-classDef includeTasks stroke:#16a085,stroke-width:2px;
-classDef importTasks stroke:#34495e,stroke-width:2px;
-classDef includeRole stroke:#2980b9,stroke-width:2px;
-classDef importRole stroke:#699ba7,stroke-width:2px;
-classDef includeVars stroke:#8e44ad,stroke-width:2px;
-classDef rescue stroke:#665352,stroke-width:2px;
-
-  Start-->|Task| _mtv_job_templates___Configure_VMWare_MTV_Job_Template0[ mtv job templates   configure vmware mtv job<br>template<br>When: **target type     vmware  and   mtv job template  <br>trim   length    0**]:::task
-  _mtv_job_templates___Configure_VMWare_MTV_Job_Template0-->|Task| _mtv_job_templates___Configure_Ovirt_MTV_Job_Template1[ mtv job templates   configure ovirt mtv job<br>template<br>When: **target type     ovirt  and   mtv job template  <br>trim   length    0**]:::task
-  _mtv_job_templates___Configure_Ovirt_MTV_Job_Template1-->End
 ```
 
 ### Graph for _build_job_templates.yml
@@ -1292,6 +1277,25 @@ classDef rescue stroke:#665352,stroke-width:2px;
   credentials___Build_required_credentials__build_credentials_yml_1-->End
 ```
 
+### Graph for _mtv_job_templates.yml
+
+```mermaid
+flowchart TD
+Start
+classDef block stroke:#3498db,stroke-width:2px;
+classDef task stroke:#4b76bb,stroke-width:2px;
+classDef includeTasks stroke:#16a085,stroke-width:2px;
+classDef importTasks stroke:#34495e,stroke-width:2px;
+classDef includeRole stroke:#2980b9,stroke-width:2px;
+classDef importRole stroke:#699ba7,stroke-width:2px;
+classDef includeVars stroke:#8e44ad,stroke-width:2px;
+classDef rescue stroke:#665352,stroke-width:2px;
+
+  Start-->|Task| _mtv_job_templates___Configure_VMWare_MTV_Job_Template0[ mtv job templates   configure vmware mtv job<br>template<br>When: **target type     vmware  and   mtv job template  <br>trim   length    0**]:::task
+  _mtv_job_templates___Configure_VMWare_MTV_Job_Template0-->|Task| _mtv_job_templates___Configure_oVirt_MTV_Job_Template1[ mtv job templates   configure ovirt mtv job<br>template<br>When: **target type     ovirt  and   mtv job template  <br>trim   length    0**]:::task
+  _mtv_job_templates___Configure_oVirt_MTV_Job_Template1-->End
+```
+
 ### Graph for main.yml
 
 ```mermaid
@@ -1314,8 +1318,10 @@ classDef rescue stroke:#665352,stroke-width:2px;
   Ensure_AAP_API_credentials_are_set4-->|Task| Check_if_both_username_password_and_token_are_defined5[check if both username password and token are<br>defined<br>When: **aap seed controller username   default     true   <br>trim   length   0 and aap seed controller password<br>  default     true    trim   length   0 and aap<br>seed controller token   default     true    trim  <br>length   0**]:::task
   Check_if_both_username_password_and_token_are_defined5-->|Task| Wait_for_API_to_become_available_using_username_and_password6[wait for api to become available using username<br>and password<br>When: **aap seed controller token   default     true   <br>length   0**]:::task
   Wait_for_API_to_become_available_using_username_and_password6-->|Task| Wait_for_API_to_become_available_using_token7[wait for api to become available using token<br>When: **aap seed controller token   default     true   <br>length   0**]:::task
-  Wait_for_API_to_become_available_using_token7-->|Include role| Call_dispatch_role____aap_seed_cac_collection____dispatch_8(call dispatch role<br>include_role:    aap seed cac collection    dispatch):::includeRole
-  Call_dispatch_role____aap_seed_cac_collection____dispatch_8-->End
+  Wait_for_API_to_become_available_using_token7-->|Task| Set_controller_configuration_vars8[set controller configuration vars]:::task
+  Set_controller_configuration_vars8-->|Task| Set_variables_for_aap_seed_cac_collection9[set variables for aap seed cac collection]:::task
+  Set_variables_for_aap_seed_cac_collection9-->|Include role| Call_dispatch_role____aap_seed_cac_collection____dispatch_10(call dispatch role<br>include_role:    aap seed cac collection    dispatch):::includeRole
+  Call_dispatch_role____aap_seed_cac_collection____dispatch_10-->End
 ```
 
 ### Graph for workflows.yml
@@ -1335,9 +1341,9 @@ classDef rescue stroke:#665352,stroke-width:2px;
   Start-->|Task| workflows___Set_workflow_variables0[workflows   set workflow variables]:::task
   workflows___Set_workflow_variables0-->|Task| workflows___Build_Operator_Workflows1[workflows   build operator workflows]:::task
   workflows___Build_Operator_Workflows1-->|Include task| workflows___Build_MTV_Target_Workflows__mtv_workflow_job_templates_yml_2[workflows   build mtv target workflows<br>include_task:  mtv workflow job templates yml]:::includeTasks
-  workflows___Build_MTV_Target_Workflows__mtv_workflow_job_templates_yml_2-->|Task| workflows___Build_MTV_Worklfow3[workflows   build mtv worklfow]:::task
-  workflows___Build_MTV_Worklfow3-->|Task| workflows___Build_Migration_Factory_Worklfow4[workflows   build migration factory worklfow]:::task
-  workflows___Build_Migration_Factory_Worklfow4-->End
+  workflows___Build_MTV_Target_Workflows__mtv_workflow_job_templates_yml_2-->|Task| workflows___Build_MTV_Workflow3[workflows   build mtv workflow]:::task
+  workflows___Build_MTV_Workflow3-->|Task| workflows___Build_Migration_Factory_Workflow4[workflows   build migration factory workflow]:::task
+  workflows___Build_Migration_Factory_Workflow4-->End
 ```
 
 ## Author Information

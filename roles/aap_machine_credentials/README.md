@@ -14,6 +14,8 @@ This role enables the management of Ansible Automation Platform _Credentials_.
 Role belongs to infra/openshift_virtualization_migration
 Namespace - infra
 Collection - openshift_virtualization_migration
+Version - 1.21.1
+Repository - https://github.com/redhat-cop/openshift_virtualization_migration
 ```
 
 Description: Management of Machine Credentials.
@@ -86,8 +88,8 @@ Description: Management of Machine Credentials.
 | Initialize Variables | `ansible.builtin.set_fact` | False |
 | Process Machine Credentials | `ansible.builtin.include_tasks` | False |
 | Manage Credentials | `block` | False |
-| Verify Config as Code parameters required (for AAP 2.5 and below) | `ansible.builtin.assert` | True |
 | Verify Config as Code parameters required (for AAP 2.4 and below) | `ansible.builtin.assert` | True |
+| Verify Config as Code parameters required (for AAP 2.5 and above) | `ansible.builtin.assert` | True |
 | Call credential config as code role | `ansible.builtin.include_role` | True |
 
 #### File: tasks/_map_key_content.yml
@@ -167,10 +169,10 @@ classDef rescue stroke:#665352,stroke-width:2px;
   Start-->|Task| Initialize_Variables0[initialize variables]:::task
   Initialize_Variables0-->|Include task| Process_Machine_Credentials__process_machine_credential_yml_1[process machine credentials<br>include_task:  process machine credential yml]:::includeTasks
   Process_Machine_Credentials__process_machine_credential_yml_1-->|Block Start| Manage_Credentials2_block_start_0[[manage credentials]]:::block
-  Manage_Credentials2_block_start_0-->|Task| Verify_Config_as_Code_parameters_required__for_AAP_2_5_and_below_0[verify config as code parameters required  for aap<br>2 5 and below <br>When: **aap version is defined and aap version is version <br>2 5**]:::task
-  Verify_Config_as_Code_parameters_required__for_AAP_2_5_and_below_0-->|Task| Verify_Config_as_Code_parameters_required__for_AAP_2_4_and_below_1[verify config as code parameters required  for aap<br>2 4 and below <br>When: **aap version is not defined or aap version is<br>version  2 5**]:::task
-  Verify_Config_as_Code_parameters_required__for_AAP_2_4_and_below_1-.->|End of Block| Manage_Credentials2_block_start_0
-  Verify_Config_as_Code_parameters_required__for_AAP_2_4_and_below_1-->|Include role| Call_credential_config_as_code_role____aap_machine_credentials_cac_credentials_role____3(call credential config as code role<br>When: **aap machine credentials controller credentials  <br>length   0**<br>include_role:    aap machine credentials cac credentials role   ):::includeRole
+  Manage_Credentials2_block_start_0-->|Task| Verify_Config_as_Code_parameters_required__for_AAP_2_4_and_below_0[verify config as code parameters required  for aap<br>2 4 and below <br>When: **aap version is defined and aap version is version <br>2 5**]:::task
+  Verify_Config_as_Code_parameters_required__for_AAP_2_4_and_below_0-->|Task| Verify_Config_as_Code_parameters_required__for_AAP_2_5_and_above_1[verify config as code parameters required  for aap<br>2 5 and above <br>When: **aap version is not defined or aap version is<br>version  2 5**]:::task
+  Verify_Config_as_Code_parameters_required__for_AAP_2_5_and_above_1-.->|End of Block| Manage_Credentials2_block_start_0
+  Verify_Config_as_Code_parameters_required__for_AAP_2_5_and_above_1-->|Include role| Call_credential_config_as_code_role____aap_machine_credentials_cac_credentials_role____3(call credential config as code role<br>When: **aap machine credentials controller credentials  <br>length   0**<br>include_role:    aap machine credentials cac credentials role   ):::includeRole
   Call_credential_config_as_code_role____aap_machine_credentials_cac_credentials_role____3-->End
 ```
 
