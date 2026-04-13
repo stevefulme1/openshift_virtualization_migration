@@ -114,7 +114,7 @@ workload images must be mirrored to the internal registry.
 ### Execution Environment Image
 
 The Ansible Automation Platform Execution Environment (EE) used by the
-Migration Factory must be available internally. The inventory references
+Ansible for OpenShift Virtualization Migration must be available internally. The inventory references
 this image via:
 
 ```yaml
@@ -157,7 +157,7 @@ Spaces Operator images along with the other Operators in the
 
 ## 3. Ansible Collection Mirroring
 
-The Migration Factory depends on the following Ansible collections.
+The Ansible for OpenShift Virtualization Migration depends on the following Ansible collections.
 These must be available from an internal Automation Hub or a local
 filesystem path.
 
@@ -324,7 +324,7 @@ to be reachable — all content must be pre-mirrored.
 
 ## 8. Validation Checklist
 
-Before running the Migration Factory in a disconnected environment,
+Before running the Ansible for OpenShift Virtualization Migration in a disconnected environment,
 verify the following:
 
 - [ ] All required Operators are installable from the mirrored
