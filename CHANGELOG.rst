@@ -4,6 +4,21 @@ Openshift Virtualization Migration Release Notes
 
 .. contents:: Topics
 
+v1.24.0
+=======
+
+Minor Changes
+-------------
+
+- add OpenShift GitOps operator (#21)
+- add secure credential management with Vault (#23)
+
+Documentation Changes
+---------------------
+
+- add disconnected environment guide (#20)
+- add secure credential practices guide (#24)
+
 v1.23.0
 =======
 

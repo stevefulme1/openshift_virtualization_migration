@@ -14,7 +14,7 @@ This role manages the lifecycle of operators for OpenShift Virtualization
 Role belongs to infra/openshift_virtualization_migration
 Namespace - infra
 Collection - openshift_virtualization_migration
-Version - 1.23.0
+Version - 1.24.0
 Repository - https://github.com/redhat-cop/openshift_virtualization_migration
 ```
 
@@ -37,145 +37,160 @@ Description: Management of OpenShift Operators.
 | [`operator_management_default_operators.4`](defaults/main.yml#L32)   | str   | `far` |  None  |   None  |  None |
 | [`operator_management_default_operators.5`](defaults/main.yml#L33)   | str   | `nmstate` |  None  |   None  |  None |
 | [`operator_management_default_operators.6`](defaults/main.yml#L34)   | str   | `nho` |  None  |   None  |  None |
-| [`operator_management_default_mtv`](defaults/main.yml#L39)   | dict   | `{}` |  None  |   True  |  Operator Management of MTV |
-| [`operator_management_default_mtv.namespace`](defaults/main.yml#L40)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_mtv.namespace.metadata`](defaults/main.yml#L41)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_mtv.namespace.metadata.name`](defaults/main.yml#L42)   | str   | `openshift-mtv` |  None  |   None  |  None |
-| [`operator_management_default_mtv.operatorgroup`](defaults/main.yml#L43)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_mtv.operatorgroup.metadata`](defaults/main.yml#L44)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_mtv.operatorgroup.metadata.name`](defaults/main.yml#L45)   | str   | `migration` |  None  |   None  |  None |
-| [`operator_management_default_mtv.operatorgroup.spec`](defaults/main.yml#L46)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_mtv.operatorgroup.spec.targetNamespaces`](defaults/main.yml#L47)   | list   | `[]` |  None  |   None  |  None |
-| [`operator_management_default_mtv.operatorgroup.spec.targetNamespaces.0`](defaults/main.yml#L47)   | str   | `openshift-mtv` |  None  |   None  |  None |
-| [`operator_management_default_mtv.subscription`](defaults/main.yml#L49)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_mtv.subscription.spec`](defaults/main.yml#L50)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_mtv.subscription.spec.name`](defaults/main.yml#L51)   | str   | `mtv-operator` |  None  |   None  |  None |
-| [`operator_management_default_mtv.extra_resources`](defaults/main.yml#L52)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_mtv.extra_resources.forkliftcontroller`](defaults/main.yml#L53)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_mtv.extra_resources.forkliftcontroller.apiVersion`](defaults/main.yml#L54)   | str   | `forklift.konveyor.io/v1beta1` |  None  |   None  |  None |
-| [`operator_management_default_mtv.extra_resources.forkliftcontroller.kind`](defaults/main.yml#L55)   | str   | `ForkliftController` |  None  |   None  |  None |
-| [`operator_management_default_mtv.extra_resources.forkliftcontroller.metadata`](defaults/main.yml#L56)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_mtv.extra_resources.forkliftcontroller.metadata.name`](defaults/main.yml#L57)   | str   | `forklift-controller` |  None  |   None  |  None |
-| [`operator_management_default_mtv.extra_resources.forkliftcontroller.metadata.namespace`](defaults/main.yml#L58)   | str   | `openshift-mtv` |  None  |   None  |  None |
-| [`operator_management_default_mtv.extra_resources.forkliftcontroller.spec`](defaults/main.yml#L59)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_mtv.extra_resources.forkliftcontroller.spec.olm_managed`](defaults/main.yml#L60)   | bool   | `True` |  None  |   None  |  None |
-| [`operator_management_default_cnv`](defaults/main.yml#L65)   | dict   | `{}` |  None  |   True  |  Operator Management of OpenShift Virtualization |
-| [`operator_management_default_cnv.namespace`](defaults/main.yml#L66)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_cnv.namespace.metadata`](defaults/main.yml#L67)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_cnv.namespace.metadata.name`](defaults/main.yml#L68)   | str   | `openshift-cnv` |  None  |   None  |  None |
-| [`operator_management_default_cnv.operatorgroup`](defaults/main.yml#L69)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_cnv.operatorgroup.metadata`](defaults/main.yml#L70)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_cnv.operatorgroup.metadata.name`](defaults/main.yml#L71)   | str   | `kubevirt-hyperconverged-group` |  None  |   None  |  None |
-| [`operator_management_default_cnv.operatorgroup.spec`](defaults/main.yml#L72)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_cnv.operatorgroup.spec.targetNamespaces`](defaults/main.yml#L73)   | list   | `[]` |  None  |   None  |  None |
-| [`operator_management_default_cnv.operatorgroup.spec.targetNamespaces.0`](defaults/main.yml#L73)   | str   | `openshift-cnv` |  None  |   None  |  None |
-| [`operator_management_default_cnv.subscription`](defaults/main.yml#L75)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_cnv.subscription.metadata`](defaults/main.yml#L76)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_cnv.subscription.metadata.name`](defaults/main.yml#L77)   | str   | `kubevirt-hyperconverged` |  None  |   None  |  None |
-| [`operator_management_default_cnv.extra_resources`](defaults/main.yml#L78)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_cnv.extra_resources.hyperconverged`](defaults/main.yml#L79)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_cnv.extra_resources.hyperconverged.apiVersion`](defaults/main.yml#L80)   | str   | `hco.kubevirt.io/v1beta1` |  None  |   None  |  None |
-| [`operator_management_default_cnv.extra_resources.hyperconverged.kind`](defaults/main.yml#L81)   | str   | `HyperConverged` |  None  |   None  |  None |
-| [`operator_management_default_cnv.extra_resources.hyperconverged.metadata`](defaults/main.yml#L82)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_cnv.extra_resources.hyperconverged.metadata.name`](defaults/main.yml#L83)   | str   | `kubevirt-hyperconverged` |  None  |   None  |  None |
-| [`operator_management_default_cnv.extra_resources.hyperconverged.metadata.namespace`](defaults/main.yml#L84)   | str   | `openshift-cnv` |  None  |   None  |  None |
-| [`operator_management_default_acm`](defaults/main.yml#L88)   | dict   | `{}` |  None  |   True  |  Operator Management of ACM |
-| [`operator_management_default_acm.namespace`](defaults/main.yml#L89)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_acm.namespace.metadata`](defaults/main.yml#L90)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_acm.namespace.metadata.name`](defaults/main.yml#L91)   | str   | `open-cluster-management` |  None  |   None  |  None |
-| [`operator_management_default_acm.operatorgroup`](defaults/main.yml#L92)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_acm.operatorgroup.metadata`](defaults/main.yml#L93)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_acm.operatorgroup.metadata.name`](defaults/main.yml#L94)   | str   | `acm-operator` |  None  |   None  |  None |
-| [`operator_management_default_acm.operatorgroup.spec`](defaults/main.yml#L95)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_acm.operatorgroup.spec.targetNamespaces`](defaults/main.yml#L96)   | list   | `[]` |  None  |   None  |  None |
-| [`operator_management_default_acm.operatorgroup.spec.targetNamespaces.0`](defaults/main.yml#L105)   | str   | `open-cluster-management` |  None  |   None  |  None |
-| [`operator_management_default_acm.subscription`](defaults/main.yml#L129)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_acm.subscription.metadata`](defaults/main.yml#L130)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_acm.subscription.metadata.name`](defaults/main.yml#L131)   | str   | `acm-operator` |  None  |   None  |  None |
-| [`operator_management_default_acm.subscription.spec`](defaults/main.yml#L132)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_acm.subscription.spec.name`](defaults/main.yml#L133)   | str   | `advanced-cluster-management` |  None  |   None  |  None |
-| [`operator_management_default_acm.extra_resources`](defaults/main.yml#L165)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_acm.extra_resources.multiclusterhub`](defaults/main.yml#L165)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_acm.extra_resources.multiclusterhub.apiVersion`](defaults/main.yml#L167)   | str   | `operator.open-cluster-management.io/v1` |  None  |   None  |  None |
-| [`operator_management_default_acm.extra_resources.multiclusterhub.kind`](defaults/main.yml#L168)   | str   | `MultiClusterHub` |  None  |   None  |  None |
-| [`operator_management_default_acm.extra_resources.multiclusterhub.metadata`](defaults/main.yml#L169)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_acm.extra_resources.multiclusterhub.metadata.name`](defaults/main.yml#L170)   | str   | `multiclusterhub` |  None  |   None  |  None |
-| [`operator_management_default_acm.extra_resources.multiclusterhub.metadata.namespace`](defaults/main.yml#L176)   | str   | `open-cluster-management` |  None  |   None  |  None |
-| [`operator_management_default_acm.extra_resources.multiclusterhub.metadata.finalizers`](defaults/main.yml#L176)   | list   | `[]` |  None  |   None  |  None |
-| [`operator_management_default_acm.extra_resources.multiclusterhub.metadata.finalizers.0`](defaults/main.yml#L176)   | str   | `finalizer.operator.open-cluster-management.io` |  None  |   None  |  None |
-| [`operator_management_default_acm.extra_resources.multiclusterhub.spec`](defaults/main.yml#L185)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_acm.extra_resources.multiclusterhub.spec.availabilityConfig`](defaults/main.yml#L185)   | str   | `High` |  None  |   None  |  None |
-| [`operator_management_default_acm.extra_resources.multiclusterhub.spec.enableClusterBackup`](defaults/main.yml#L185)   | bool   | `False` |  None  |   None  |  None |
-| [`operator_management_default_oadp`](defaults/main.yml#L185)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_oadp.namespace`](defaults/main.yml#L185)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_oadp.namespace.metadata`](defaults/main.yml#L185)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_oadp.namespace.metadata.name`](defaults/main.yml#L186)   | str   | `openshift-adp` |  None  |   None  |  None |
-| [`operator_management_default_oadp.operatorgroup`](defaults/main.yml#L186)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_oadp.operatorgroup.metadata`](defaults/main.yml#L186)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_oadp.operatorgroup.metadata.name`](defaults/main.yml#L186)   | str   | `redhat-oadp-operator-group` |  None  |   None  |  None |
-| [`operator_management_default_oadp.operatorgroup.spec`](defaults/main.yml#L186)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_oadp.operatorgroup.spec.targetNamespaces`](defaults/main.yml#L186)   | list   | `[]` |  None  |   None  |  None |
-| [`operator_management_default_oadp.operatorgroup.spec.targetNamespaces.0`](defaults/main.yml#L186)   | str   | `openshift-adp` |  None  |   None  |  None |
-| [`operator_management_default_oadp.subscription`](defaults/main.yml#L186)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_oadp.subscription.metadata`](defaults/main.yml#L186)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_oadp.subscription.metadata.name`](defaults/main.yml#L186)   | str   | `redhat-oadp-operator-subscription` |  None  |   None  |  None |
-| [`operator_management_default_oadp.subscription.spec`](defaults/main.yml#L186)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_oadp.subscription.spec.name`](defaults/main.yml#L186)   | str   | `redhat-oadp-operator` |  None  |   None  |  None |
-| [`operator_management_far`](defaults/main.yml#L186)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_far.namespace`](defaults/main.yml#L186)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_far.namespace.metadata`](defaults/main.yml#L186)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_far.namespace.metadata.name`](defaults/main.yml#L186)   | str   | `openshift-workload-availability` |  None  |   None  |  None |
-| [`operator_management_far.operatorgroup`](defaults/main.yml#L186)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_far.operatorgroup.metadata`](defaults/main.yml#L186)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_far.operatorgroup.metadata.name`](defaults/main.yml#L186)   | str   | `openshift-workload-availability-operator-group` |  None  |   None  |  None |
-| [`operator_management_far.subscription`](defaults/main.yml#L186)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_far.subscription.metadata`](defaults/main.yml#L186)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_far.subscription.metadata.name`](defaults/main.yml#L186)   | str   | `fence-agents-remediation` |  None  |   None  |  None |
-| [`operator_management_default_nmstate`](defaults/main.yml#L186)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_nmstate.namespace`](defaults/main.yml#L186)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_nmstate.namespace.metadata`](defaults/main.yml#L186)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_nmstate.namespace.metadata.name`](defaults/main.yml#L186)   | str   | `openshift-nmstate` |  None  |   None  |  None |
-| [`operator_management_default_nmstate.operatorgroup`](defaults/main.yml#L186)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_nmstate.operatorgroup.metadata`](defaults/main.yml#L186)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_nmstate.operatorgroup.metadata.name`](defaults/main.yml#L186)   | str   | `nmstate-operator-group` |  None  |   None  |  None |
-| [`operator_management_default_nmstate.operatorgroup.spec`](defaults/main.yml#L186)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_nmstate.operatorgroup.spec.targetNamespaces`](defaults/main.yml#L186)   | list   | `[]` |  None  |   None  |  None |
-| [`operator_management_default_nmstate.operatorgroup.spec.targetNamespaces.0`](defaults/main.yml#L186)   | str   | `openshift-nmstate` |  None  |   None  |  None |
-| [`operator_management_default_nmstate.subscription`](defaults/main.yml#L186)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_nmstate.subscription.metadata`](defaults/main.yml#L186)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_nmstate.subscription.metadata.name`](defaults/main.yml#L186)   | str   | `kubernetes-nmstate-operator` |  None  |   None  |  None |
-| [`operator_management_default_nmstate.extra_resources`](defaults/main.yml#L186)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_nmstate.extra_resources.nmstate`](defaults/main.yml#L186)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_nmstate.extra_resources.nmstate.apiVersion`](defaults/main.yml#L186)   | str   | `nmstate.io/v1` |  None  |   None  |  None |
-| [`operator_management_default_nmstate.extra_resources.nmstate.kind`](defaults/main.yml#L186)   | str   | `NMState` |  None  |   None  |  None |
-| [`operator_management_default_nmstate.extra_resources.nmstate.metadata`](defaults/main.yml#L186)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_nmstate.extra_resources.nmstate.metadata.name`](defaults/main.yml#L186)   | str   | `nmstate` |  None  |   None  |  None |
-| [`operator_management_default_nho`](defaults/main.yml#L186)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_nho.namespace`](defaults/main.yml#L186)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_nho.namespace.metadata`](defaults/main.yml#L186)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_nho.namespace.metadata.name`](defaults/main.yml#L186)   | str   | `openshift-workload-availability` |  None  |   None  |  None |
-| [`operator_management_default_nho.operatorgroup`](defaults/main.yml#L186)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_nho.operatorgroup.metadata`](defaults/main.yml#L186)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_nho.operatorgroup.metadata.name`](defaults/main.yml#L186)   | str   | `openshift-workload-availability-operator-group` |  None  |   None  |  None |
-| [`operator_management_default_nho.subscription`](defaults/main.yml#L186)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_nho.subscription.metadata`](defaults/main.yml#L186)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_nho.subscription.metadata.name`](defaults/main.yml#L186)   | str   | `node-healthcheck-operator` |  None  |   None  |  None |
-| [`operator_management_default_nho.subscription.spec`](defaults/main.yml#L186)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_default_nho.subscription.spec.name`](defaults/main.yml#L186)   | str   | `node-healthcheck-operator` |  None  |   None  |  None |
-| [`operator_management_catalog_sources`](defaults/main.yml#L191)   | list   | `[]` |  None  |   True  |  Operator Management of Red Hat Marketplace |
-| [`operator_management_catalog_sources.0`](defaults/main.yml#L192)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_catalog_sources.0.name`](defaults/main.yml#L192)   | str   | `redhat-marketplace2` |  None  |   None  |  None |
-| [`operator_management_catalog_sources.0.source_type`](defaults/main.yml#L193)   | str   | `grpc` |  None  |   None  |  None |
-| [`operator_management_catalog_sources.0.display_name`](defaults/main.yml#L194)   | str   | `Mirror to Red Hat Marketplace` |  None  |   None  |  None |
-| [`operator_management_catalog_sources.0.image_path`](defaults/main.yml#L195)   | str   | `internal-registry.example.com/operator:v1` |  None  |   None  |  None |
-| [`operator_management_catalog_sources.0.priority`](defaults/main.yml#L196)   | str   | `-300` |  None  |   None  |  None |
-| [`operator_management_catalog_sources.0.icon`](defaults/main.yml#L197)   | dict   | `{}` |  None  |   None  |  None |
-| [`operator_management_catalog_sources.0.icon.base64data`](defaults/main.yml#L198)   | str   | `` |  None  |   None  |  None |
-| [`operator_management_catalog_sources.0.icon.mediatype`](defaults/main.yml#L199)   | str   | `` |  None  |   None  |  None |
-| [`operator_management_catalog_sources.0.publisher`](defaults/main.yml#L200)   | str   | `redhat` |  None  |   None  |  None |
-| [`operator_management_catalog_sources.0.address`](defaults/main.yml#L201)   | str   | `` |  None  |   None  |  None |
-| [`operator_management_catalog_sources.0.grpc_pod_config`](defaults/main.yml#L202)   | str   | `<multiline value: literal>` |  None  |   None  |  None |
-| [`operator_management_catalog_sources.0.registry_poll_interval`](defaults/main.yml#L220)   | str   | `10m` |  None  |   None  |  None |
+| [`operator_management_default_operators.7`](defaults/main.yml#L35)   | str   | `gitops` |  None  |   None  |  None |
+| [`operator_management_default_mtv`](defaults/main.yml#L40)   | dict   | `{}` |  None  |   True  |  Operator Management of MTV |
+| [`operator_management_default_mtv.namespace`](defaults/main.yml#L41)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_mtv.namespace.metadata`](defaults/main.yml#L42)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_mtv.namespace.metadata.name`](defaults/main.yml#L43)   | str   | `openshift-mtv` |  None  |   None  |  None |
+| [`operator_management_default_mtv.operatorgroup`](defaults/main.yml#L44)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_mtv.operatorgroup.metadata`](defaults/main.yml#L45)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_mtv.operatorgroup.metadata.name`](defaults/main.yml#L46)   | str   | `migration` |  None  |   None  |  None |
+| [`operator_management_default_mtv.operatorgroup.spec`](defaults/main.yml#L47)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_mtv.operatorgroup.spec.targetNamespaces`](defaults/main.yml#L48)   | list   | `[]` |  None  |   None  |  None |
+| [`operator_management_default_mtv.operatorgroup.spec.targetNamespaces.0`](defaults/main.yml#L48)   | str   | `openshift-mtv` |  None  |   None  |  None |
+| [`operator_management_default_mtv.subscription`](defaults/main.yml#L50)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_mtv.subscription.spec`](defaults/main.yml#L51)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_mtv.subscription.spec.name`](defaults/main.yml#L52)   | str   | `mtv-operator` |  None  |   None  |  None |
+| [`operator_management_default_mtv.extra_resources`](defaults/main.yml#L53)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_mtv.extra_resources.forkliftcontroller`](defaults/main.yml#L54)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_mtv.extra_resources.forkliftcontroller.apiVersion`](defaults/main.yml#L55)   | str   | `forklift.konveyor.io/v1beta1` |  None  |   None  |  None |
+| [`operator_management_default_mtv.extra_resources.forkliftcontroller.kind`](defaults/main.yml#L56)   | str   | `ForkliftController` |  None  |   None  |  None |
+| [`operator_management_default_mtv.extra_resources.forkliftcontroller.metadata`](defaults/main.yml#L57)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_mtv.extra_resources.forkliftcontroller.metadata.name`](defaults/main.yml#L58)   | str   | `forklift-controller` |  None  |   None  |  None |
+| [`operator_management_default_mtv.extra_resources.forkliftcontroller.metadata.namespace`](defaults/main.yml#L59)   | str   | `openshift-mtv` |  None  |   None  |  None |
+| [`operator_management_default_mtv.extra_resources.forkliftcontroller.spec`](defaults/main.yml#L60)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_mtv.extra_resources.forkliftcontroller.spec.olm_managed`](defaults/main.yml#L61)   | bool   | `True` |  None  |   None  |  None |
+| [`operator_management_default_cnv`](defaults/main.yml#L66)   | dict   | `{}` |  None  |   True  |  Operator Management of OpenShift Virtualization |
+| [`operator_management_default_cnv.namespace`](defaults/main.yml#L67)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_cnv.namespace.metadata`](defaults/main.yml#L68)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_cnv.namespace.metadata.name`](defaults/main.yml#L69)   | str   | `openshift-cnv` |  None  |   None  |  None |
+| [`operator_management_default_cnv.operatorgroup`](defaults/main.yml#L70)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_cnv.operatorgroup.metadata`](defaults/main.yml#L71)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_cnv.operatorgroup.metadata.name`](defaults/main.yml#L72)   | str   | `kubevirt-hyperconverged-group` |  None  |   None  |  None |
+| [`operator_management_default_cnv.operatorgroup.spec`](defaults/main.yml#L73)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_cnv.operatorgroup.spec.targetNamespaces`](defaults/main.yml#L74)   | list   | `[]` |  None  |   None  |  None |
+| [`operator_management_default_cnv.operatorgroup.spec.targetNamespaces.0`](defaults/main.yml#L74)   | str   | `openshift-cnv` |  None  |   None  |  None |
+| [`operator_management_default_cnv.subscription`](defaults/main.yml#L76)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_cnv.subscription.metadata`](defaults/main.yml#L77)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_cnv.subscription.metadata.name`](defaults/main.yml#L78)   | str   | `kubevirt-hyperconverged` |  None  |   None  |  None |
+| [`operator_management_default_cnv.extra_resources`](defaults/main.yml#L79)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_cnv.extra_resources.hyperconverged`](defaults/main.yml#L80)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_cnv.extra_resources.hyperconverged.apiVersion`](defaults/main.yml#L81)   | str   | `hco.kubevirt.io/v1beta1` |  None  |   None  |  None |
+| [`operator_management_default_cnv.extra_resources.hyperconverged.kind`](defaults/main.yml#L82)   | str   | `HyperConverged` |  None  |   None  |  None |
+| [`operator_management_default_cnv.extra_resources.hyperconverged.metadata`](defaults/main.yml#L83)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_cnv.extra_resources.hyperconverged.metadata.name`](defaults/main.yml#L84)   | str   | `kubevirt-hyperconverged` |  None  |   None  |  None |
+| [`operator_management_default_cnv.extra_resources.hyperconverged.metadata.namespace`](defaults/main.yml#L85)   | str   | `openshift-cnv` |  None  |   None  |  None |
+| [`operator_management_default_acm`](defaults/main.yml#L89)   | dict   | `{}` |  None  |   True  |  Operator Management of ACM |
+| [`operator_management_default_acm.namespace`](defaults/main.yml#L90)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_acm.namespace.metadata`](defaults/main.yml#L91)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_acm.namespace.metadata.name`](defaults/main.yml#L92)   | str   | `open-cluster-management` |  None  |   None  |  None |
+| [`operator_management_default_acm.operatorgroup`](defaults/main.yml#L93)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_acm.operatorgroup.metadata`](defaults/main.yml#L94)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_acm.operatorgroup.metadata.name`](defaults/main.yml#L95)   | str   | `acm-operator` |  None  |   None  |  None |
+| [`operator_management_default_acm.operatorgroup.spec`](defaults/main.yml#L96)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_acm.operatorgroup.spec.targetNamespaces`](defaults/main.yml#L97)   | list   | `[]` |  None  |   None  |  None |
+| [`operator_management_default_acm.operatorgroup.spec.targetNamespaces.0`](defaults/main.yml#L106)   | str   | `open-cluster-management` |  None  |   None  |  None |
+| [`operator_management_default_acm.subscription`](defaults/main.yml#L130)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_acm.subscription.metadata`](defaults/main.yml#L131)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_acm.subscription.metadata.name`](defaults/main.yml#L132)   | str   | `acm-operator` |  None  |   None  |  None |
+| [`operator_management_default_acm.subscription.spec`](defaults/main.yml#L133)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_acm.subscription.spec.name`](defaults/main.yml#L134)   | str   | `advanced-cluster-management` |  None  |   None  |  None |
+| [`operator_management_default_acm.extra_resources`](defaults/main.yml#L166)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_acm.extra_resources.multiclusterhub`](defaults/main.yml#L166)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_acm.extra_resources.multiclusterhub.apiVersion`](defaults/main.yml#L168)   | str   | `operator.open-cluster-management.io/v1` |  None  |   None  |  None |
+| [`operator_management_default_acm.extra_resources.multiclusterhub.kind`](defaults/main.yml#L169)   | str   | `MultiClusterHub` |  None  |   None  |  None |
+| [`operator_management_default_acm.extra_resources.multiclusterhub.metadata`](defaults/main.yml#L170)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_acm.extra_resources.multiclusterhub.metadata.name`](defaults/main.yml#L171)   | str   | `multiclusterhub` |  None  |   None  |  None |
+| [`operator_management_default_acm.extra_resources.multiclusterhub.metadata.namespace`](defaults/main.yml#L177)   | str   | `open-cluster-management` |  None  |   None  |  None |
+| [`operator_management_default_acm.extra_resources.multiclusterhub.metadata.finalizers`](defaults/main.yml#L177)   | list   | `[]` |  None  |   None  |  None |
+| [`operator_management_default_acm.extra_resources.multiclusterhub.metadata.finalizers.0`](defaults/main.yml#L177)   | str   | `finalizer.operator.open-cluster-management.io` |  None  |   None  |  None |
+| [`operator_management_default_acm.extra_resources.multiclusterhub.spec`](defaults/main.yml#L186)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_acm.extra_resources.multiclusterhub.spec.availabilityConfig`](defaults/main.yml#L186)   | str   | `High` |  None  |   None  |  None |
+| [`operator_management_default_acm.extra_resources.multiclusterhub.spec.enableClusterBackup`](defaults/main.yml#L186)   | bool   | `False` |  None  |   None  |  None |
+| [`operator_management_default_oadp`](defaults/main.yml#L186)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_oadp.namespace`](defaults/main.yml#L193)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_oadp.namespace.metadata`](defaults/main.yml#L194)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_oadp.namespace.metadata.name`](defaults/main.yml#L195)   | str   | `openshift-adp` |  None  |   None  |  None |
+| [`operator_management_default_oadp.operatorgroup`](defaults/main.yml#L196)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_oadp.operatorgroup.metadata`](defaults/main.yml#L197)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_oadp.operatorgroup.metadata.name`](defaults/main.yml#L198)   | str   | `redhat-oadp-operator-group` |  None  |   None  |  None |
+| [`operator_management_default_oadp.operatorgroup.spec`](defaults/main.yml#L199)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_oadp.operatorgroup.spec.targetNamespaces`](defaults/main.yml#L200)   | list   | `[]` |  None  |   None  |  None |
+| [`operator_management_default_oadp.operatorgroup.spec.targetNamespaces.0`](defaults/main.yml#L200)   | str   | `openshift-adp` |  None  |   None  |  None |
+| [`operator_management_default_oadp.subscription`](defaults/main.yml#L201)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_oadp.subscription.metadata`](defaults/main.yml#L202)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_oadp.subscription.metadata.name`](defaults/main.yml#L203)   | str   | `redhat-oadp-operator-subscription` |  None  |   None  |  None |
+| [`operator_management_default_oadp.subscription.spec`](defaults/main.yml#L204)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_oadp.subscription.spec.name`](defaults/main.yml#L205)   | str   | `redhat-oadp-operator` |  None  |   None  |  None |
+| [`operator_management_far`](defaults/main.yml#L205)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_far.namespace`](defaults/main.yml#L205)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_far.namespace.metadata`](defaults/main.yml#L205)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_far.namespace.metadata.name`](defaults/main.yml#L205)   | str   | `openshift-workload-availability` |  None  |   None  |  None |
+| [`operator_management_far.operatorgroup`](defaults/main.yml#L205)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_far.operatorgroup.metadata`](defaults/main.yml#L205)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_far.operatorgroup.metadata.name`](defaults/main.yml#L205)   | str   | `openshift-workload-availability-operator-group` |  None  |   None  |  None |
+| [`operator_management_far.subscription`](defaults/main.yml#L205)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_far.subscription.metadata`](defaults/main.yml#L205)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_far.subscription.metadata.name`](defaults/main.yml#L205)   | str   | `fence-agents-remediation` |  None  |   None  |  None |
+| [`operator_management_default_nmstate`](defaults/main.yml#L205)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_nmstate.namespace`](defaults/main.yml#L205)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_nmstate.namespace.metadata`](defaults/main.yml#L205)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_nmstate.namespace.metadata.name`](defaults/main.yml#L205)   | str   | `openshift-nmstate` |  None  |   None  |  None |
+| [`operator_management_default_nmstate.operatorgroup`](defaults/main.yml#L205)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_nmstate.operatorgroup.metadata`](defaults/main.yml#L205)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_nmstate.operatorgroup.metadata.name`](defaults/main.yml#L205)   | str   | `nmstate-operator-group` |  None  |   None  |  None |
+| [`operator_management_default_nmstate.operatorgroup.spec`](defaults/main.yml#L205)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_nmstate.operatorgroup.spec.targetNamespaces`](defaults/main.yml#L205)   | list   | `[]` |  None  |   None  |  None |
+| [`operator_management_default_nmstate.operatorgroup.spec.targetNamespaces.0`](defaults/main.yml#L205)   | str   | `openshift-nmstate` |  None  |   None  |  None |
+| [`operator_management_default_nmstate.subscription`](defaults/main.yml#L205)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_nmstate.subscription.metadata`](defaults/main.yml#L205)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_nmstate.subscription.metadata.name`](defaults/main.yml#L205)   | str   | `kubernetes-nmstate-operator` |  None  |   None  |  None |
+| [`operator_management_default_nmstate.extra_resources`](defaults/main.yml#L205)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_nmstate.extra_resources.nmstate`](defaults/main.yml#L205)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_nmstate.extra_resources.nmstate.apiVersion`](defaults/main.yml#L205)   | str   | `nmstate.io/v1` |  None  |   None  |  None |
+| [`operator_management_default_nmstate.extra_resources.nmstate.kind`](defaults/main.yml#L205)   | str   | `NMState` |  None  |   None  |  None |
+| [`operator_management_default_nmstate.extra_resources.nmstate.metadata`](defaults/main.yml#L205)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_nmstate.extra_resources.nmstate.metadata.name`](defaults/main.yml#L205)   | str   | `nmstate` |  None  |   None  |  None |
+| [`operator_management_default_nho`](defaults/main.yml#L205)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_nho.namespace`](defaults/main.yml#L205)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_nho.namespace.metadata`](defaults/main.yml#L205)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_nho.namespace.metadata.name`](defaults/main.yml#L205)   | str   | `openshift-workload-availability` |  None  |   None  |  None |
+| [`operator_management_default_nho.operatorgroup`](defaults/main.yml#L205)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_nho.operatorgroup.metadata`](defaults/main.yml#L205)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_nho.operatorgroup.metadata.name`](defaults/main.yml#L205)   | str   | `openshift-workload-availability-operator-group` |  None  |   None  |  None |
+| [`operator_management_default_nho.subscription`](defaults/main.yml#L205)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_nho.subscription.metadata`](defaults/main.yml#L205)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_nho.subscription.metadata.name`](defaults/main.yml#L205)   | str   | `node-healthcheck-operator` |  None  |   None  |  None |
+| [`operator_management_default_nho.subscription.spec`](defaults/main.yml#L205)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_nho.subscription.spec.name`](defaults/main.yml#L205)   | str   | `node-healthcheck-operator` |  None  |   None  |  None |
+| [`operator_management_default_gitops`](defaults/main.yml#L205)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_gitops.namespace`](defaults/main.yml#L205)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_gitops.namespace.metadata`](defaults/main.yml#L205)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_gitops.namespace.metadata.name`](defaults/main.yml#L205)   | str   | `openshift-gitops-operator` |  None  |   None  |  None |
+| [`operator_management_default_gitops.operatorgroup`](defaults/main.yml#L205)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_gitops.operatorgroup.metadata`](defaults/main.yml#L205)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_gitops.operatorgroup.metadata.name`](defaults/main.yml#L205)   | str   | `openshift-gitops-operator-group` |  None  |   None  |  None |
+| [`operator_management_default_gitops.operatorgroup.spec`](defaults/main.yml#L205)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_gitops.operatorgroup.spec.targetNamespaces`](defaults/main.yml#L205)   | list   | `[]` |  None  |   None  |  None |
+| [`operator_management_default_gitops.subscription`](defaults/main.yml#L205)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_gitops.subscription.metadata`](defaults/main.yml#L205)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_gitops.subscription.metadata.name`](defaults/main.yml#L205)   | str   | `openshift-gitops-operator` |  None  |   None  |  None |
+| [`operator_management_default_gitops.subscription.spec`](defaults/main.yml#L205)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_default_gitops.subscription.spec.name`](defaults/main.yml#L205)   | str   | `openshift-gitops-operator` |  None  |   None  |  None |
+| [`operator_management_catalog_sources`](defaults/main.yml#L210)   | list   | `[]` |  None  |   True  |  Operator Management of Red Hat Marketplace |
+| [`operator_management_catalog_sources.0`](defaults/main.yml#L211)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_catalog_sources.0.name`](defaults/main.yml#L211)   | str   | `redhat-marketplace2` |  None  |   None  |  None |
+| [`operator_management_catalog_sources.0.source_type`](defaults/main.yml#L212)   | str   | `grpc` |  None  |   None  |  None |
+| [`operator_management_catalog_sources.0.display_name`](defaults/main.yml#L213)   | str   | `Mirror to Red Hat Marketplace` |  None  |   None  |  None |
+| [`operator_management_catalog_sources.0.image_path`](defaults/main.yml#L214)   | str   | `internal-registry.example.com/operator:v1` |  None  |   None  |  None |
+| [`operator_management_catalog_sources.0.priority`](defaults/main.yml#L215)   | str   | `-300` |  None  |   None  |  None |
+| [`operator_management_catalog_sources.0.icon`](defaults/main.yml#L216)   | dict   | `{}` |  None  |   None  |  None |
+| [`operator_management_catalog_sources.0.icon.base64data`](defaults/main.yml#L217)   | str   | `` |  None  |   None  |  None |
+| [`operator_management_catalog_sources.0.icon.mediatype`](defaults/main.yml#L218)   | str   | `` |  None  |   None  |  None |
+| [`operator_management_catalog_sources.0.publisher`](defaults/main.yml#L219)   | str   | `redhat` |  None  |   None  |  None |
+| [`operator_management_catalog_sources.0.address`](defaults/main.yml#L220)   | str   | `` |  None  |   None  |  None |
+| [`operator_management_catalog_sources.0.grpc_pod_config`](defaults/main.yml#L221)   | str   | `<multiline value: literal>` |  None  |   None  |  None |
+| [`operator_management_catalog_sources.0.registry_poll_interval`](defaults/main.yml#L239)   | str   | `10m` |  None  |   None  |  None |
 
 <summary><b>🖇️ Full descriptions for vars in defaults/main.yml</b></summary>
 <br>
@@ -196,6 +211,8 @@ Description: Management of OpenShift Operators.
 <b>`operator_management_default_operators.5`:</b> None
 <br>
 <b>`operator_management_default_operators.6`:</b> None
+<br>
+<b>`operator_management_default_operators.7`:</b> None
 <br>
 <b>`operator_management_default_mtv`:</b> Operator Management of Migration Toolkit for Virtualization (MTV)
 <br>
@@ -446,6 +463,34 @@ Description: Management of OpenShift Operators.
 <b>`operator_management_default_nho.subscription.spec`:</b> None
 <br>
 <b>`operator_management_default_nho.subscription.spec.name`:</b> None
+<br>
+<b>`operator_management_default_gitops`:</b> None
+<br>
+<b>`operator_management_default_gitops.namespace`:</b> None
+<br>
+<b>`operator_management_default_gitops.namespace.metadata`:</b> None
+<br>
+<b>`operator_management_default_gitops.namespace.metadata.name`:</b> None
+<br>
+<b>`operator_management_default_gitops.operatorgroup`:</b> None
+<br>
+<b>`operator_management_default_gitops.operatorgroup.metadata`:</b> None
+<br>
+<b>`operator_management_default_gitops.operatorgroup.metadata.name`:</b> None
+<br>
+<b>`operator_management_default_gitops.operatorgroup.spec`:</b> None
+<br>
+<b>`operator_management_default_gitops.operatorgroup.spec.targetNamespaces`:</b> None
+<br>
+<b>`operator_management_default_gitops.subscription`:</b> None
+<br>
+<b>`operator_management_default_gitops.subscription.metadata`:</b> None
+<br>
+<b>`operator_management_default_gitops.subscription.metadata.name`:</b> None
+<br>
+<b>`operator_management_default_gitops.subscription.spec`:</b> None
+<br>
+<b>`operator_management_default_gitops.subscription.spec.name`:</b> None
 <br>
 <b>`operator_management_catalog_sources`:</b> Operator Management of Red Hat Marketplace
 <br>

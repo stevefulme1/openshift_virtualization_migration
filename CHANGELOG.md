@@ -1,5 +1,62 @@
 # CHANGELOG
 
+## v1.24.0 (2026-04-14)
+
+### Bug Fixes
+
+- Address review feedback on credential management docs
+  ([#23](https://github.com/redhat-cop/openshift_virtualization_migration/pull/23),
+  [`97d61c1`](https://github.com/redhat-cop/openshift_virtualization_migration/commit/97d61c10aa935fbf6dab341338a88993cb61c5d2))
+
+- Address review feedback on credential practices doc
+  ([#24](https://github.com/redhat-cop/openshift_virtualization_migration/pull/24),
+  [`02085bf`](https://github.com/redhat-cop/openshift_virtualization_migration/commit/02085bf5a9737ee003e4a8adcbb90b8ff8ad8188))
+
+- Address review feedback on disconnected environment guide
+  ([#20](https://github.com/redhat-cop/openshift_virtualization_migration/pull/20),
+  [`3679327`](https://github.com/redhat-cop/openshift_virtualization_migration/commit/3679327ee22a42382d0ccb159c5cb478a2f7d975))
+
+- Remove remaining Migration Factory references
+  ([#20](https://github.com/redhat-cop/openshift_virtualization_migration/pull/20),
+  [`3679327`](https://github.com/redhat-cop/openshift_virtualization_migration/commit/3679327ee22a42382d0ccb159c5cb478a2f7d975))
+
+- **operator-management**: Use empty targetNamespaces for GitOps operator
+  ([#21](https://github.com/redhat-cop/openshift_virtualization_migration/pull/21),
+  [`efec86a`](https://github.com/redhat-cop/openshift_virtualization_migration/commit/efec86a7b3b3356e7c622ccd92688ab798522adb))
+
+### Documentation
+
+- Add disconnected environment guide
+  ([#20](https://github.com/redhat-cop/openshift_virtualization_migration/pull/20),
+  [`3679327`](https://github.com/redhat-cop/openshift_virtualization_migration/commit/3679327ee22a42382d0ccb159c5cb478a2f7d975))
+
+- Add disconnected environment guide for Migration Factory
+  ([#20](https://github.com/redhat-cop/openshift_virtualization_migration/pull/20),
+  [`3679327`](https://github.com/redhat-cop/openshift_virtualization_migration/commit/3679327ee22a42382d0ccb159c5cb478a2f7d975))
+
+- Add secure credential practices guide
+  ([#24](https://github.com/redhat-cop/openshift_virtualization_migration/pull/24),
+  [`02085bf`](https://github.com/redhat-cop/openshift_virtualization_migration/commit/02085bf5a9737ee003e4a8adcbb90b8ff8ad8188))
+
+### Features
+
+- Add secure credential management with Ansible Vault
+  ([#23](https://github.com/redhat-cop/openshift_virtualization_migration/pull/23),
+  [`97d61c1`](https://github.com/redhat-cop/openshift_virtualization_migration/commit/97d61c10aa935fbf6dab341338a88993cb61c5d2))
+
+- Add secure credential management with Vault
+  ([#23](https://github.com/redhat-cop/openshift_virtualization_migration/pull/23),
+  [`97d61c1`](https://github.com/redhat-cop/openshift_virtualization_migration/commit/97d61c10aa935fbf6dab341338a88993cb61c5d2))
+
+- **operator-management**: Add OpenShift GitOps operator
+  ([#21](https://github.com/redhat-cop/openshift_virtualization_migration/pull/21),
+  [`efec86a`](https://github.com/redhat-cop/openshift_virtualization_migration/commit/efec86a7b3b3356e7c622ccd92688ab798522adb))
+
+- **operator-management**: Add Red Hat OpenShift GitOps operator
+  ([#21](https://github.com/redhat-cop/openshift_virtualization_migration/pull/21),
+  [`efec86a`](https://github.com/redhat-cop/openshift_virtualization_migration/commit/efec86a7b3b3356e7c622ccd92688ab798522adb))
+
+
 ## v1.23.0 (2026-04-10)
 
 ### Features
