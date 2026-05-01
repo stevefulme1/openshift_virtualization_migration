@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## v1.24.2 (2026-05-01)
+
+### Bug Fixes
+
+- MFG-463 Update hot_plug compute jinja template
+  ([#35](https://github.com/redhat-cop/openshift_virtualization_migration/pull/35),
+  [`0a2f8ee`](https://github.com/redhat-cop/openshift_virtualization_migration/commit/0a2f8ee38e1f7da653e7c8b5c7c5846cec910690))
+
+
 ## v1.24.1 (2026-04-15)
 
 ### Chores

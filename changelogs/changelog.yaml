@@ -325,3 +325,13 @@ releases:
     fragments:
       - 1.24.1_docs_addtableofcontents30.yml
     release_date: '2026-04-15'
+  1.24.2:
+    changes:
+      bugfixes:
+        - Corrected jinja2 logic in vm_hot_plug role for the compute_patch.yml.j2
+          to address memory hotplug operation
+        - MFG-463 Update hot_plug compute jinja template (#35)
+    fragments:
+      - 1.24.2_fix_MFG463Updatehotplugcomputejinj.yml
+      - MFG-463.yml
+    release_date: '2026-05-01'

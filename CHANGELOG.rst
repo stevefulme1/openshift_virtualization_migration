@@ -4,6 +4,15 @@ Openshift Virtualization Migration Release Notes
 
 .. contents:: Topics
 
+v1.24.2
+=======
+
+Bugfixes
+--------
+
+- Corrected jinja2 logic in vm_hot_plug role for the compute_patch.yml.j2 to address memory hotplug operation
+- MFG-463 Update hot_plug compute jinja template (#35)
+
 v1.24.1
 =======
 
